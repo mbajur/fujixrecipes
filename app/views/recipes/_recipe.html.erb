@@ -30,7 +30,7 @@
   </div>
 
   <div class="row">
-    <div class="col-8">
+    <div class="col-12 col-md-8">
       <p>
         <%= image_tag recipe.poster.representation(resize_to_fill: [880, 480]), class: 'img-fluid rounded' %>
       </p>
@@ -97,7 +97,7 @@
   <h3 class="h4 text-center mt-4 mb-3">Other recipes</h3>
   <div class="row">
     <% @other_recipes.each do |recipe| %>
-      <div class="col-4">
+      <div class="col-12 col-md-4">
         <%= render 'recipes/recipe_card', recipe: recipe %>
       </div>
     <% end %>

@@ -2,7 +2,7 @@
 
 <div class="row">
   <% @recipes.each do |recipe| %>
-    <div class="col-4">
+    <div class="col-12 col-md-4">
       <%= render 'recipes/recipe_card', recipe: recipe %>
     </div>
   <% end %>
