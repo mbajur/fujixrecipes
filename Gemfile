@@ -64,6 +64,10 @@ group :development do
   # gem "spring"
 end
 
+group :production do
+  gem 'aws-sdk-s3', require: false
+end
+
 gem 'devise'
 gem 'omniauth-reddit'
 gem 'image_processing', '>= 1.2'
