@@ -6,7 +6,8 @@ RUN apt-get update -qq && apt-get install -y \
   build-essential \
   libpq-dev \
   curl \
-  libvips
+  libvips \
+  libvips-tools
 
 # for a JS runtime
 RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
