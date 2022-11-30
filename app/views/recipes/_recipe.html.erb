@@ -1,0 +1,105 @@
+<div id="<%= dom_id recipe %>">
+  <div class="row mb-3 align-items-center justify-content-between">
+    <div class="col-6">
+      <h1 class="mb-0"><%= recipe.name %></h1>
+      <%= link_to recipe.user, class: 'text-decoration-none' do %>
+        <%= image_tag recipe.user.avatar.representation(resize_to_fill: [15, 15]), class: 'rounded-circle', size: '15x15' %>
+        <%= recipe.user.display_name || recipe.user.username %>
+      <% end %>
+
+      <% if recipe.parent %>
+        <div class="text-muted small d-inline">
+          &bull; Forked from <%= link_to recipe.parent.name, [recipe.parent.user, recipe.parent], class: 'text-reset' %> by <%= link_to (recipe.parent.user.display_name || recipe.parent.user.username), recipe.parent.user, class: 'text-reset' %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="col-auto text-right">
+      <% if @recipe.saved_by?(current_user) %>
+        <a class="btn btn-success" href="<%= recipe_toggle_save_path(@recipe) %>" data-method="post">Saved</a>
+      <% else %>
+        <a class="btn btn-outline-secondary" href="<%= recipe_toggle_save_path(@recipe) %>" data-method="post">Save</a>
+      <% end %>
+
+      <a class="btn btn-outline-secondary" href="<%= new_recipe_path(fork_of: @recipe.to_param) %>">Fork</a>
+
+      <% if current_user == @recipe.user %>
+        <a href="<%= edit_recipe_path(@recipe) %>" class="btn btn-outline-secondary">Edit</a>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-8">
+      <p>
+        <%= image_tag recipe.poster.representation(resize_to_fill: [880, 480]), class: 'img-fluid rounded' %>
+      </p>
+    </div>
+
+    <div class="col">
+      <dl class="row">
+        <dt class="col-sm-7">Film simulation</dt>
+        <dd class="col-sm-5"><%= recipe.film_simulation %></dd>
+
+        <dt class="col-sm-7">Dynamic range:</dt>
+        <dd class="col-sm-5"><%= recipe.dynamic_range %></dd>
+
+        <dt class="col-sm-7">Highlights:</dt>
+        <dd class="col-sm-5"><%= recipe.highlights %></dd>
+
+        <dt class="col-sm-7">Shadows:</dt>
+        <dd class="col-sm-5"><%= recipe.shadows %></dd>
+
+        <dt class="col-sm-7">Color:</dt>
+        <dd class="col-sm-5"><%= recipe.color %></dd>
+
+        <dt class="col-sm-7">Noise reduction:</dt>
+        <dd class="col-sm-5"><%= recipe.noise_reduction %></dd>
+
+        <dt class="col-sm-7">Sharpening:</dt>
+        <dd class="col-sm-5"><%= recipe.sharpening %></dd>
+
+        <dt class="col-sm-7">Clarity:</dt>
+        <dd class="col-sm-5"><%= recipe.clarity %></dd>
+
+        <dt class="col-sm-7">Grain roughness:</dt>
+        <dd class="col-sm-5"><%= recipe.grain_roughness %></dd>
+
+        <dt class="col-sm-7">Grain size:</dt>
+        <dd class="col-sm-5"><%= recipe.grain_size %></dd>
+
+        <dt class="col-sm-7">Color chrome effect:</dt>
+        <dd class="col-sm-5"><%= recipe.color_chrome_effect %></dd>
+
+        <dt class="col-sm-7">Color chrome effect blue:</dt>
+        <dd class="col-sm-5"><%= recipe.color_chrome_effect_blue %></dd>
+
+        <dt class="col-sm-7">White balance:</dt>
+        <dd class="col-sm-5"><%= recipe.white_balance %></dd>
+
+        <dt class="col-sm-7">White balance red:</dt>
+        <dd class="col-sm-5"><%= recipe.white_balance_red %></dd>
+
+        <dt class="col-sm-7">White balance blue:</dt>
+        <dd class="col-sm-5"><%= recipe.white_balance_blue %></dd>
+      </dl>
+    </div>
+  </div>
+
+  <div class="row justify-content-center mt-4">
+    <div class="col-8">
+      <div class="lead">
+        <%= simple_format recipe.description %>
+      </div>
+    </div>
+  </div>
+
+  <h3 class="h4 text-center mt-4 mb-3">Other recipes</h3>
+  <div class="row">
+    <% @other_recipes.each do |recipe| %>
+      <div class="col-4">
+        <%= render 'recipes/recipe_card', recipe: recipe %>
+      </div>
+    <% end %>
+  </div>
+</div>

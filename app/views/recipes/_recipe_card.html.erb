@@ -1,0 +1,21 @@
+<div class="card mb-4">
+  <%= link_to [recipe.user, recipe] do %>
+    <%= image_tag recipe.poster.representation(resize_to_fill: [634, 400]), class: 'card-img-top' %>
+  <% end %>
+
+  <div class="card-body">
+    <h5 class="card-title mb-0"><%= link_to recipe.name, [recipe.user, recipe], class: 'text-reset text-decoration-none' %></h5>
+    <div class="card-text small">
+      <%= link_to recipe.user, class: 'text-reset text-decoration-none' do %>
+        <%= image_tag recipe.user.avatar.representation(resize_to_fill: [15, 15]), class: 'rounded-circle', size: '15x15' %>
+        <%= recipe.user.display_name || recipe.user.username %>
+      <% end %>
+
+      <% if recipe.parent %>
+        <div class="text-muted small d-inline">
+          &bull; Forked from <%= link_to recipe.parent.name, [recipe.parent.user, recipe.parent], class: 'text-reset' %> by <%= link_to (recipe.parent.user.display_name || recipe.parent.user.username), recipe.parent.user, class: 'text-reset' %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

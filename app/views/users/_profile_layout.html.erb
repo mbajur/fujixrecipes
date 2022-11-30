@@ -1,0 +1,39 @@
+<div class="row py-5 align-items-center">
+  <div class="col-4 text-center">
+    <%= image_tag @user.avatar.representation(resize_to_fill: [200, 200]), class: 'rounded-circle', size: '150x150' %>
+  </div>
+
+  <div class="col">
+    <div class="d-flex">
+      <h1 class="h3 mb-3">
+        <%= @user.username %>
+      </h1>
+
+      <% if @user == current_user %>
+        <div class="align-self-center ms-3">
+          <a href="<%= edit_user_path(@user) %>" class="btn btn-sm btn-outline-secondary">Edit profile</a>
+        </div>
+      <% end %>
+    </div>
+
+    <div>
+      <% if @user.display_name %><strong><%= @user.display_name %></strong><% end %>
+      <%= simple_format @user.bio %>
+
+      <% if @user.website %>
+        <%= link_to @user.website.gsub('http://', '').gsub('https://', ''), @user.website, rel: 'me nofollow noopener noreferrer', target: '_blank' %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<ul class="nav nav-tabs justify-content-center mb-4">
+  <li class="nav-item">
+    <a class="nav-link <%= 'active' if params[:action] == 'show' %>" aria-current="page" href="<%= user_path(@user) %>">Recipes created by <%= @user.username %></a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link <%= 'active' if params[:action] == 'saved' %>" href="<%= saved_user_recipes_path(@user) %>">Saved</a>
+  </li>
+</ul>
+
+<%= yield %>

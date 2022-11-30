@@ -1,0 +1,8 @@
+<%= bootstrap_form_for(@user) do |f| %>
+  <%= f.text_field :username %>
+  <%= f.text_field :display_name %>
+  <%= f.file_field :avatar %>
+  <%= f.text_area :bio %>
+  <%= f.url_field :website %>
+  <%= f.submit %>
+<% end %>

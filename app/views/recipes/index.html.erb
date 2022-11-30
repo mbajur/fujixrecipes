@@ -1,0 +1,11 @@
+<p style="color: green"><%= notice %></p>
+
+<div class="row">
+  <% @recipes.each do |recipe| %>
+    <div class="col-4">
+      <%= render 'recipes/recipe_card', recipe: recipe %>
+    </div>
+  <% end %>
+</div>
+
+<%= link_to "New recipe", new_recipe_path %>

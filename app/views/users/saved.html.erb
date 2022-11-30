@@ -1,0 +1,13 @@
+<%= render layout: 'users/profile_layout' do %>
+  <div class="row">
+    <% @recipes.each do |recipe| %>
+      <div class="col-4">
+        <%= render 'recipes/recipe_card', recipe: recipe %>
+      </div>
+    <% end %>
+  </div>
+
+  <% if @recipes.none? %>
+    <p class="lead text-center">No saved recipes yet</p>
+  <% end %>
+<% end %>
