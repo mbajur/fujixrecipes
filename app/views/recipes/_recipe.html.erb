@@ -2,6 +2,10 @@
   <div class="row mb-3 align-items-center justify-content-between">
     <div class="col-6">
       <h1 class="mb-0"><%= recipe.name %></h1>
+      <% if recipe.original_author.present? %>
+        <span class="text-muted"><%= recipe.original_author %> via</span>
+      <% end %>
+
       <%= link_to recipe.user, class: 'text-decoration-none' do %>
         <%= image_tag recipe.user.avatar.representation(resize_to_fill: [15, 15]), class: 'rounded-circle', size: '15x15' %>
         <%= recipe.user.display_name || recipe.user.username %>
