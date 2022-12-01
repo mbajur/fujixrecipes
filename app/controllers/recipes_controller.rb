@@ -5,6 +5,10 @@ class RecipesController < ApplicationController
   # GET /recipes or /recipes.json
   def index
     @recipes = Recipe.all.order(id: :desc)
+
+    if params[:s] && Recipe.sensors.keys.include?(params[:s])
+      @recipes = @recipes.where(sensor: params[:s])
+    end
   end
 
   def saved

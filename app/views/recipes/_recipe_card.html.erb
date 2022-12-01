@@ -6,7 +6,7 @@
   <div class="card-body">
     <% if recipe.sensor %>
       <div style="margin-top: -55px; margin-bottom: 30px">
-        <span class="badge text-bg-dark"><%= recipe.sensor %></span>
+        <a class="badge text-bg-dark text-decoration-none" href="/?s=<%= recipe.sensor %>"><%= recipe.sensor %></a>
       </div>
     <% end %>
 

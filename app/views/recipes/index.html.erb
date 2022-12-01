@@ -1,11 +1,40 @@
 <p style="color: green"><%= notice %></p>
 
+<ul class="nav nav-tabs justify-content-center mb-4">
+  <li class="nav-item">
+    <a class="nav-link <%= 'active' unless params[:s] %>" aria-current="page" href="/">All sensors</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link <%= 'active' if params[:s] == 'xtrans1' %>" aria-current="page" href="/?s=xtrans1">X-Trans I</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link <%= 'active' if params[:s] == 'xtrans2' %>" aria-current="page" href="/?s=xtrans2">X-Trans II</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link <%= 'active' if params[:s] == 'xtrans3' %>" aria-current="page" href="/?s=xtrans3">X-Trans III</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link <%= 'active' if params[:s] == 'xtrans4' %>" aria-current="page" href="/?s=xtrans4">X-Trans IV</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link <%= 'active' if params[:s] == 'xtrans5' %>" aria-current="page" href="/?s=xtrans5">X-Trans V</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link <%= 'active' if params[:s] == 'gfx' %>" aria-current="page" href="/?s=gfx">GFX</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link <%= 'active' if params[:s] == 'bayer' %>" aria-current="page" href="/?s=bayer">Bayer</a>
+  </li>
+</ul>
+
 <div class="row">
   <% @recipes.each do |recipe| %>
     <div class="col-12 col-md-4">
       <%= render 'recipes/recipe_card', recipe: recipe %>
     </div>
   <% end %>
-</div>
 
-<%= link_to "New recipe", new_recipe_path %>
+  <% if @recipes.none? %>
+    <p class="lead text-center">No recipes to show</p>
+  <% end %>
+</div>
