@@ -21,11 +21,17 @@
   <% end %>
 
   <div>
-    <%= form.text_field :name %>
+    <%= form.text_field :name, class: 'form-control-lg' %>
   </div>
 
-  <div>
-    <%= form.select :film_simulation, Recipe.film_simulations.keys %>
+  <div class="row">
+    <div class="col">
+      <%= form.select :sensor, Recipe.sensors.keys %>
+    </div>
+
+    <div class="col">
+      <%= form.select :film_simulation, Recipe.film_simulations.keys %>
+    </div>
   </div>
 
   <div>
@@ -56,41 +62,65 @@
     <%= form.number_field :clarity %>
   </div>
 
-  <div>
-    <%= form.select :grain_roughness, Recipe.grain_roughnesses.keys %>
+  <div class="row">
+    <div class="col">
+      <%= form.select :grain_roughness, Recipe.grain_roughnesses.keys %>
+    </div>
+
+    <div class="col">
+      <%= form.select :grain_size, Recipe.grain_sizes.keys %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <%= form.select :color_chrome_effect, Recipe.color_chrome_effects.keys %>
+    </div>
+
+    <div class="col">
+      <%= form.select :color_chrome_effect_blue, Recipe.color_chrome_effect_blues.keys %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <%= form.select :white_balance, Recipe.white_balances.keys %>
+    </div>
+
+    <div class="col">
+      <%= form.number_field :white_balance_red %>
+    </div>
+
+    <div class="col">
+      <%= form.number_field :white_balance_blue %>
+    </div>
   </div>
 
   <div>
-    <%= form.select :grain_size, Recipe.grain_sizes.keys %>
+    <%= form.file_field :poster, direct_upload: true %>
   </div>
 
   <div>
-    <%= form.select :color_chrome_effect, Recipe.color_chrome_effects.keys %>
+    <%= form.file_field :photo_1, direct_upload: true %>
   </div>
 
   <div>
-    <%= form.select :color_chrome_effect_blue, Recipe.color_chrome_effect_blues.keys %>
-  </div>
-
-  <div>
-    <%= form.select :white_balance, Recipe.white_balances.keys %>
-  </div>
-
-  <div>
-    <%= form.number_field :white_balance_red %>
-  </div>
-
-  <div>
-    <%= form.number_field :white_balance_blue %>
-  </div>
-
-  <div>
-    <%= form.file_field :poster %>
+    <%= form.file_field :photo_2, direct_upload: true %>
   </div>
 
   <div>
     <%= form.text_area :description %>
   </div>
+
+  <% if current_user.staff? %>
+    <div>
+      <%= form.text_field :original_author %>
+    </div>
+
+    <div>
+      <%= form.url_field :original_url %>
+    </div>
+  <% end %>
 
   <p class="text-danger">By submitting this form, you confirm that you are the original author of all the data and photos attached</p>
 

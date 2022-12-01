@@ -32,12 +32,44 @@
   <div class="row">
     <div class="col-12 col-md-8">
       <p>
-        <%= image_tag recipe.poster.representation(resize_to_fill: [880, 480]), class: 'img-fluid rounded' %>
+        <%= image_tag recipe.poster.representation(resize_to_fill: [880, 550]), class: 'img-fluid' %>
       </p>
+
+      <% if recipe.photo_1 %>
+        <p>
+          <%= image_tag recipe.photo_1.representation(resize_to_fill: [880, 550]), class: 'img-fluid' %>
+        </p>
+      <% end %>
+
+      <% if recipe.photo_2 %>
+        <p>
+          <%= image_tag recipe.photo_2.representation(resize_to_fill: [880, 550]), class: 'img-fluid' %>
+        </p>
+      <% end %>
+
+      <div class="lead">
+        <%= simple_format recipe.description %>
+      </div>
+
+      <% if recipe.original_author %>
+        <div class="alert alert-info">
+          <p>Original author of this recipe and photos is <strong><%= recipe.original_author %></strong>.
+          Ownership will be transfered to a proper account in cause of him/her opening one.</p>
+
+          <p class="small">If you are the author and you don't want this recipe to be here, please reach me at <a href="https://instagram.com/mbajur" class="alert-link" target="_blank">@mbajur</a></p>
+
+          <hr>
+
+          <a href="<%= recipe.original_url %>" class="alert-link" target="_blank">See original source &rarr;</a>
+        </div>
+      <% end %>
     </div>
 
     <div class="col">
-      <dl class="row">
+      <dl class="row sticky-top pt-3">
+        <dt class="col-sm-7">Sensor</dt>
+        <dd class="col-sm-5"><%= recipe.sensor %></dd>
+
         <dt class="col-sm-7">Film simulation</dt>
         <dd class="col-sm-5"><%= recipe.film_simulation %></dd>
 
@@ -86,15 +118,9 @@
     </div>
   </div>
 
-  <div class="row justify-content-center mt-4">
-    <div class="col-8">
-      <div class="lead">
-        <%= simple_format recipe.description %>
-      </div>
-    </div>
-  </div>
+  <hr class="my-5">
 
-  <h3 class="h4 text-center mt-4 mb-3">Other recipes</h3>
+  <h3 class="h4 text-center mt-5 mb-5">Other recipes</h3>
   <div class="row">
     <% @other_recipes.each do |recipe| %>
       <div class="col-12 col-md-4">

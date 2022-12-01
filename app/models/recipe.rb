@@ -6,6 +6,8 @@ class Recipe < ApplicationRecord
   has_many :saves, class_name: 'Save'
 
   has_one_attached :poster
+  has_one_attached :photo_1
+  has_one_attached :photo_2
 
   enum film_simulation: {
     provia: 0,
@@ -56,8 +58,22 @@ class Recipe < ApplicationRecord
     strong: 2
   }, _prefix: true
 
+  enum sensor: {
+    gfx: 0,
+    bayer: 1,
+    xtrans1: 2,
+    xtrans2: 3,
+    xtrans3: 4,
+    xtrans4: 5,
+    xtrans5: 6
+  }, _prefix: true
+
   validates :name, presence: true
-  validates :poster, presence: true
+  validates :sensor, presence: true
+  validates :film_simulation, presence: true
+  validates :poster, attached: true, content_type: :jpg
+  validates :photo_1, content_type: :jpg
+  validates :photo_2, content_type: :jpg
 
   def saved_by?(user)
     saves.find_by(user: user).present?

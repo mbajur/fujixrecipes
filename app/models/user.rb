@@ -14,6 +14,8 @@ class User < ApplicationRecord
   has_many :saves, class_name: 'Save'
   has_many :saved_recipes, through: :saves, source: :recipe
 
+  validates :avatar, content_type: /\Aimage\/.*\z/
+
   def to_param
     username
   end

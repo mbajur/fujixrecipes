@@ -4,6 +4,12 @@
   <% end %>
 
   <div class="card-body">
+    <% if recipe.sensor %>
+      <div style="margin-top: -55px; margin-bottom: 30px">
+        <span class="badge text-bg-dark"><%= recipe.sensor %></span>
+      </div>
+    <% end %>
+
     <h5 class="card-title mb-0"><%= link_to recipe.name, [recipe.user, recipe], class: 'text-reset text-decoration-none' %></h5>
     <div class="card-text small">
       <%= link_to recipe.user, class: 'text-reset text-decoration-none' do %>

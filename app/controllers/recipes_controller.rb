@@ -36,6 +36,7 @@ class RecipesController < ApplicationController
     if params[:fork_of]
       @recipe.parent = Recipe.find(params[:fork_of])
 
+      @recipe.sensor = @recipe.parent.sensor
       @recipe.film_simulation = @recipe.parent.film_simulation
       @recipe.dynamic_range = @recipe.parent.dynamic_range
       @recipe.highlights = @recipe.parent.highlights
@@ -95,6 +96,29 @@ class RecipesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def recipe_params
-      params.require(:recipe).permit(:film_simulation, :dynamic_range, :highlights, :shadows, :color, :noise_reduction, :sharpening, :clarity, :grain_roughness, :grain_size, :color_chrome_effect, :color_chrome_effect_blue, :white_balance, :white_balance_red, :white_balance_blue, :poster, :description, :name, :parent_id)
+      params.require(:recipe).permit(:film_simulation,
+                                     :dynamic_range,
+                                     :highlights,
+                                     :shadows,
+                                     :color,
+                                     :noise_reduction,
+                                     :sharpening,
+                                     :clarity,
+                                     :grain_roughness,
+                                     :grain_size,
+                                     :color_chrome_effect,
+                                     :color_chrome_effect_blue,
+                                     :white_balance,
+                                     :white_balance_red,
+                                     :white_balance_blue,
+                                     :sensor,
+                                     :original_author,
+                                     :original_url,
+                                     :poster,
+                                     :photo_1,
+                                     :photo_2,
+                                     :description,
+                                     :name,
+                                     :parent_id)
     end
 end
