@@ -51,7 +51,7 @@
         <%= simple_format recipe.description %>
       </div>
 
-      <% if recipe.original_author %>
+      <% if recipe.original_author.present? %>
         <div class="alert alert-info">
           <p>Original author of this recipe and photos is <strong><%= recipe.original_author %></strong>.
           Ownership will be transfered to a proper account in cause of him/her opening one.</p>
