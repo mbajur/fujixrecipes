@@ -35,13 +35,13 @@
         <%= image_tag recipe.poster.representation(resize_to_fill: [880, 550]), class: 'img-fluid' %>
       </p>
 
-      <% if recipe.photo_1 %>
+      <% if recipe.photo_1.attached? %>
         <p>
           <%= image_tag recipe.photo_1.representation(resize_to_fill: [880, 550]), class: 'img-fluid' %>
         </p>
       <% end %>
 
-      <% if recipe.photo_2 %>
+      <% if recipe.photo_2.attached? %>
         <p>
           <%= image_tag recipe.photo_2.representation(resize_to_fill: [880, 550]), class: 'img-fluid' %>
         </p>
