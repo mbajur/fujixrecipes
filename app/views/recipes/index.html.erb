@@ -5,6 +5,9 @@
     <a class="nav-link <%= 'active' unless params[:s] %>" aria-current="page" href="/">All sensors</a>
   </li>
   <li class="nav-item">
+    <a class="nav-link disabled" aria-current="page" href="/" data-bs-title="In the future, it will be possible to define what cameras you own and smart-filter recipes by that">My sensors</a>
+  </li>
+  <li class="nav-item">
     <a class="nav-link <%= 'active' if params[:s] == 'xtrans1' %>" aria-current="page" href="/?s=xtrans1">X-Trans I</a>
   </li>
   <li class="nav-item">
