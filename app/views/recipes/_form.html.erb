@@ -112,15 +112,13 @@
     <%= form.text_area :description %>
   </div>
 
-  <% if current_user.staff? %>
-    <div>
-      <%= form.text_field :original_author %>
-    </div>
+  <div>
+    <%= form.text_field :original_author %>
+  </div>
 
-    <div>
-      <%= form.url_field :original_url %>
-    </div>
-  <% end %>
+  <div>
+    <%= form.url_field :original_url %>
+  </div>
 
   <p class="text-danger">By submitting this form, you confirm that you are the original author of all the data and photos attached</p>
 
