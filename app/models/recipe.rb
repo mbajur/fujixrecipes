@@ -59,22 +59,25 @@ class Recipe < ApplicationRecord
     strong: 2
   }, _prefix: true
 
-  enum sensor_old: {
-    gfx: 0,
-    bayer: 1,
-    xtrans1: 2,
-    xtrans2: 3,
-    xtrans3: 4,
-    xtrans4: 5,
-    xtrans5: 6
-  }, _prefix: true
+  enum :source_type, {
+    local: 0,
+    external: 1
+  }, prefix: true
 
   validates :name, presence: true
   validates :sensor, presence: true
-  validates :film_simulation, presence: true
   validates :poster, attached: true, content_type: :jpg
-  validates :photo_1, content_type: :jpg
-  validates :photo_2, content_type: :jpg
+
+  with_options if: :source_type_local? do |recipe|
+    recipe.validates :film_simulation, presence: true
+    recipe.validates :photo_1, content_type: :jpg
+    recipe.validates :photo_2, content_type: :jpg
+  end
+
+  with_options if: :source_type_external? do |recipe|
+    recipe.validates :original_author, presence: true
+    recipe.validates :original_url, presence: true, uniqueness: { scope: :source_type }
+  end
 
   def saved_by?(user)
     saves.find_by(user: user).present?

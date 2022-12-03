@@ -1,0 +1,128 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <%= bootstrap_form_with(model: recipe) do |form| %>
+      <% if recipe.errors.any? %>
+        <div style="color: red">
+          <h2><%= pluralize(recipe.errors.count, "error") %> prohibited this recipe from being saved:</h2>
+
+          <ul>
+            <% recipe.errors.each do |error| %>
+              <li><%= error.full_message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <% if recipe.parent.present? %>
+        <div>
+          <% unless recipe.persisted? %><%= form.hidden_field :parent_id %><% end %>
+          <div class="alert alert-info">
+            Fork of <%= link_to @recipe.parent.name, [@recipe.parent.user, @recipe.parent] %> by <%= link_to (@recipe.parent.user.display_name || @recipe.parent.user.username), @recipe.parent.user %>
+          </div>
+        </div>
+      <% end %>
+
+      <%= form.hidden_field :source_type, value: form.object.source_type %>
+
+      <div>
+        <%= form.text_field :name, class: 'form-control-lg', help: 'Keep it short and simple' %>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <%= form.select :sensor_id, Sensor.all.map { |s| [s.name, s.id]} %>
+        </div>
+
+        <div class="col">
+          <%= form.select :film_simulation, Recipe.film_simulations.keys %>
+        </div>
+      </div>
+
+      <div>
+        <%= form.select :dynamic_range, Recipe.dynamic_ranges.keys %>
+      </div>
+
+      <div>
+        <%= form.number_field :highlights %>
+      </div>
+
+      <div>
+        <%= form.number_field :shadows %>
+      </div>
+
+      <div>
+        <%= form.number_field :color %>
+      </div>
+
+      <div>
+        <%= form.number_field :noise_reduction %>
+      </div>
+
+      <div>
+        <%= form.number_field :sharpening %>
+      </div>
+
+      <div>
+        <%= form.number_field :clarity %>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <%= form.select :grain_roughness, Recipe.grain_roughnesses.keys %>
+        </div>
+
+        <div class="col">
+          <%= form.select :grain_size, Recipe.grain_sizes.keys %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <%= form.select :color_chrome_effect, Recipe.color_chrome_effects.keys %>
+        </div>
+
+        <div class="col">
+          <%= form.select :color_chrome_effect_blue, Recipe.color_chrome_effect_blues.keys %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <%= form.select :white_balance, Recipe.white_balances.keys %>
+        </div>
+
+        <div class="col">
+          <%= form.number_field :white_balance_red %>
+        </div>
+
+        <div class="col">
+          <%= form.number_field :white_balance_blue %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <%= form.file_field :poster, direct_upload: true, help: 'Required' %>
+        </div>
+
+        <div class="col">
+          <%= form.file_field :photo_1, direct_upload: true, help: 'Optional' %>
+        </div>
+
+        <div class="col">
+          <%= form.file_field :photo_2, direct_upload: true, help: 'Optional' %>
+        </div>
+      </div>
+
+      <div>
+        <%= form.text_area :description %>
+      </div>
+
+      <p class="text-danger">By submitting this form, you confirm that you are the original author of all the data and photos attached</p>
+
+      <div>
+        <%= form.submit %>
+      </div>
+    <% end %>
+  </div>
+</div>

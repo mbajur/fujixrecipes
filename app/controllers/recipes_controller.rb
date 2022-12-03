@@ -51,7 +51,12 @@ class RecipesController < ApplicationController
   # GET /recipes/new
   def new
     authenticate_user!
-    @recipe = Recipe.new
+  end
+
+  # GET /recipes/new_local
+  def new_local
+    authenticate_user!
+    @recipe = Recipe.source_type_local.new
 
     if params[:fork_of]
       @recipe.parent = Recipe.find(params[:fork_of])
@@ -75,6 +80,12 @@ class RecipesController < ApplicationController
     end
   end
 
+  # GET /recipes/new_external
+  def new_external
+    authenticate_user!
+    @recipe = Recipe.source_type_external.new
+  end
+
   # GET /recipes/1/edit
   def edit
     authenticate_user!
@@ -86,13 +97,14 @@ class RecipesController < ApplicationController
 
     @recipe = Recipe.new(recipe_params)
     @recipe.user = current_user
+    error_action = @recipe.source_type_local? ? :new_local : :new_external
 
     respond_to do |format|
       if @recipe.save
         format.html { redirect_to user_recipe_url(@recipe.user, @recipe), notice: "Recipe was successfully created." }
         format.json { render :show, status: :created, location: @recipe }
       else
-        format.html { render :new, status: :unprocessable_entity }
+        format.html { render error_action, status: :unprocessable_entity }
         format.json { render json: @recipe.errors, status: :unprocessable_entity }
       end
     end
@@ -139,6 +151,7 @@ class RecipesController < ApplicationController
                                      :photo_2,
                                      :description,
                                      :name,
+                                     :source_type,
                                      :parent_id)
     end
 end

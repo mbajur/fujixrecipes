@@ -1,3 +1,20 @@
-<h1>New recipe</h1>
+<h1 class="h2 text-center mb-4 mt-4">New recipe</h1>
 
-<%= render "form", recipe: @recipe %>
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div class="card-group">
+      <div class="card text-center">
+        <div class="card-body p-5">
+          <p class="card-text lead">I created my own recipe and i want to share it on fujixrecipes</p>
+          <a href="<%= new_local_recipes_path %>" class="btn btn-primary">Add mine</a>
+        </div>
+      </div>
+      <div class="card text-center">
+        <div class="card-body p-5">
+          <p class="card-text lead">I want to share the link to a recipe that already exists on another website</p>
+          <a href="<%= new_external_recipes_path %>" class="btn btn-primary">Link external</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

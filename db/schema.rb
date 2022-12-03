@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_03_080741) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_03_105230) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -79,6 +79,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_03_080741) do
     t.string "original_author"
     t.string "original_url"
     t.bigint "sensor_id"
+    t.integer "source_type", default: 0
     t.index ["parent_id"], name: "index_recipes_on_parent_id"
     t.index ["sensor_id"], name: "index_recipes_on_sensor_id"
     t.index ["user_id"], name: "index_recipes_on_user_id"

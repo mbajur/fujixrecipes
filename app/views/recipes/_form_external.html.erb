@@ -1,0 +1,47 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <%= bootstrap_form_with(model: recipe) do |form| %>
+      <% if recipe.errors.any? %>
+        <div style="color: red">
+          <h2><%= pluralize(recipe.errors.count, "error") %> prohibited this recipe from being saved:</h2>
+
+          <ul>
+            <% recipe.errors.each do |error| %>
+              <li><%= error.full_message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <%= form.hidden_field :source_type, value: form.object.source_type %>
+
+      <div class="row">
+        <div class="col-8">
+          <%= form.text_field :name, class: 'form-control-lg', help: 'Keep it short and simple' %>
+        </div>
+
+        <div class="col">
+          <%= form.select :sensor_id, Sensor.all.map { |s| [s.name, s.id] }, {}, class: 'form-select-lg' %>
+        </div>
+      </div>
+
+      <div>
+        <%= form.url_field :original_url, placeholder: 'https://...', class: 'form-control-lg' %>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <%= form.text_field :original_author, label: 'Original author name' %>
+        </div>
+
+        <div class="col">
+          <%= form.file_field :poster, direct_upload: true %>
+        </div>
+      </div>
+
+      <div>
+        <%= form.submit %>
+      </div>
+    <% end %>
+  </div>
+</div>

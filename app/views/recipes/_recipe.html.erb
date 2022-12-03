@@ -25,7 +25,9 @@
         <a class="btn btn-outline-secondary" href="<%= recipe_toggle_save_path(@recipe) %>" data-method="post">Save</a>
       <% end %>
 
-      <a class="btn btn-outline-secondary" href="<%= new_recipe_path(fork_of: @recipe.to_param) %>">Fork</a>
+      <% if recipe.source_type_local? %>
+        <a class="btn btn-outline-secondary" href="<%= new_recipe_path(fork_of: @recipe.to_param) %>">Fork</a>
+      <% end %>
 
       <% if current_user == @recipe.user %>
         <a href="<%= edit_recipe_path(@recipe) %>" class="btn btn-outline-secondary">Edit</a>
@@ -33,96 +35,109 @@
     </div>
   </div>
 
-  <div class="row">
-    <div class="col-12 col-md-8">
-      <p>
-        <%= image_tag recipe.poster.representation(resize_to_fill: [880, 550]), class: 'img-fluid' %>
-      </p>
+  <% if recipe.source_type_external? %>
+    <div class="card mb-3 text-bg-light">
+      <div class="row g-0">
+        <div class="col-md-4">
+          <%= link_to recipe.original_url, target: :_blank do %>
+            <%= image_tag recipe.poster.representation(resize_to_fill: [880, 420]), class: 'img-fluid rounded-start' %>
+          <% end %>
+        </div>
 
-      <% if recipe.photo_1.attached? %>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title">External recipe for <%= recipe.sensor.name %></h5>
+            <p class="card-text">Original author of this recipe and photos is <strong><%= recipe.original_author %></strong> and this recipe is hosted outside fujixrecipes.
+            Ownership will be transfered to a proper account in cause of him/her opening one. Use the link below to see the original recipe.</p>
+
+            <p class="card-text text-muted small">If you are the author and you don't want this recipe to be here, please reach me at <a href="https://instagram.com/mbajur" class="alert-link" target="_blank">@mbajur</a></p>
+
+            <hr>
+
+            <a href="<%= recipe.original_url %>" class="alert-link" target="_blank">See original recipe ↗</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% else %>
+    <div class="row">
+      <div class="col-12 col-md-8">
         <p>
-          <%= image_tag recipe.photo_1.representation(resize_to_fill: [880, 550]), class: 'img-fluid' %>
+          <%= image_tag recipe.poster.representation(resize_to_fill: [880, 550]), class: 'img-fluid' %>
         </p>
-      <% end %>
 
-      <% if recipe.photo_2.attached? %>
-        <p>
-          <%= image_tag recipe.photo_2.representation(resize_to_fill: [880, 550]), class: 'img-fluid' %>
-        </p>
-      <% end %>
+        <% if recipe.photo_1.attached? %>
+          <p>
+            <%= image_tag recipe.photo_1.representation(resize_to_fill: [880, 550]), class: 'img-fluid' %>
+          </p>
+        <% end %>
 
-      <div class="lead">
-        <%= simple_format recipe.description %>
+        <% if recipe.photo_2.attached? %>
+          <p>
+            <%= image_tag recipe.photo_2.representation(resize_to_fill: [880, 550]), class: 'img-fluid' %>
+          </p>
+        <% end %>
+
+        <div class="lead">
+          <%= simple_format recipe.description %>
+        </div>
       </div>
 
-      <% if recipe.original_author.present? %>
-        <div class="alert alert-info">
-          <p>Original author of this recipe and photos is <strong><%= recipe.original_author %></strong>.
-          Ownership will be transfered to a proper account in cause of him/her opening one.</p>
+      <div class="col">
+        <dl class="row sticky-top pt-3">
+          <dt class="col-sm-7">Sensor</dt>
+          <dd class="col-sm-5"><%= link_to recipe.sensor&.name, "/?s=#{recipe.sensor&.slug}" %></dd>
 
-          <p class="small">If you are the author and you don't want this recipe to be here, please reach me at <a href="https://instagram.com/mbajur" class="alert-link" target="_blank">@mbajur</a></p>
+          <dt class="col-sm-7">Film simulation</dt>
+          <dd class="col-sm-5"><%= recipe.film_simulation %></dd>
 
-          <hr>
+          <dt class="col-sm-7">Dynamic range:</dt>
+          <dd class="col-sm-5"><%= recipe.dynamic_range %></dd>
 
-          <a href="<%= recipe.original_url %>" class="alert-link" target="_blank">See original source &rarr;</a>
-        </div>
-      <% end %>
+          <dt class="col-sm-7">Highlights:</dt>
+          <dd class="col-sm-5"><%= recipe.highlights %></dd>
+
+          <dt class="col-sm-7">Shadows:</dt>
+          <dd class="col-sm-5"><%= recipe.shadows %></dd>
+
+          <dt class="col-sm-7">Color:</dt>
+          <dd class="col-sm-5"><%= recipe.color %></dd>
+
+          <dt class="col-sm-7">Noise reduction:</dt>
+          <dd class="col-sm-5"><%= recipe.noise_reduction %></dd>
+
+          <dt class="col-sm-7">Sharpening:</dt>
+          <dd class="col-sm-5"><%= recipe.sharpening %></dd>
+
+          <dt class="col-sm-7">Clarity:</dt>
+          <dd class="col-sm-5"><%= recipe.clarity %></dd>
+
+          <dt class="col-sm-7">Grain roughness:</dt>
+          <dd class="col-sm-5"><%= recipe.grain_roughness %></dd>
+
+          <dt class="col-sm-7">Grain size:</dt>
+          <dd class="col-sm-5"><%= recipe.grain_size %></dd>
+
+          <dt class="col-sm-7">Color chrome effect:</dt>
+          <dd class="col-sm-5"><%= recipe.color_chrome_effect %></dd>
+
+          <dt class="col-sm-7">Color chrome effect blue:</dt>
+          <dd class="col-sm-5"><%= recipe.color_chrome_effect_blue %></dd>
+
+          <dt class="col-sm-7">White balance:</dt>
+          <dd class="col-sm-5"><%= recipe.white_balance %></dd>
+
+          <dt class="col-sm-7">White balance red:</dt>
+          <dd class="col-sm-5"><%= recipe.white_balance_red %></dd>
+
+          <dt class="col-sm-7">White balance blue:</dt>
+          <dd class="col-sm-5"><%= recipe.white_balance_blue %></dd>
+        </dl>
+      </div>
     </div>
 
-    <div class="col">
-      <dl class="row sticky-top pt-3">
-        <dt class="col-sm-7">Sensor</dt>
-        <dd class="col-sm-5"><%= link_to recipe.sensor&.name, "/?s=#{recipe.sensor&.slug}" %></dd>
-
-        <dt class="col-sm-7">Film simulation</dt>
-        <dd class="col-sm-5"><%= recipe.film_simulation %></dd>
-
-        <dt class="col-sm-7">Dynamic range:</dt>
-        <dd class="col-sm-5"><%= recipe.dynamic_range %></dd>
-
-        <dt class="col-sm-7">Highlights:</dt>
-        <dd class="col-sm-5"><%= recipe.highlights %></dd>
-
-        <dt class="col-sm-7">Shadows:</dt>
-        <dd class="col-sm-5"><%= recipe.shadows %></dd>
-
-        <dt class="col-sm-7">Color:</dt>
-        <dd class="col-sm-5"><%= recipe.color %></dd>
-
-        <dt class="col-sm-7">Noise reduction:</dt>
-        <dd class="col-sm-5"><%= recipe.noise_reduction %></dd>
-
-        <dt class="col-sm-7">Sharpening:</dt>
-        <dd class="col-sm-5"><%= recipe.sharpening %></dd>
-
-        <dt class="col-sm-7">Clarity:</dt>
-        <dd class="col-sm-5"><%= recipe.clarity %></dd>
-
-        <dt class="col-sm-7">Grain roughness:</dt>
-        <dd class="col-sm-5"><%= recipe.grain_roughness %></dd>
-
-        <dt class="col-sm-7">Grain size:</dt>
-        <dd class="col-sm-5"><%= recipe.grain_size %></dd>
-
-        <dt class="col-sm-7">Color chrome effect:</dt>
-        <dd class="col-sm-5"><%= recipe.color_chrome_effect %></dd>
-
-        <dt class="col-sm-7">Color chrome effect blue:</dt>
-        <dd class="col-sm-5"><%= recipe.color_chrome_effect_blue %></dd>
-
-        <dt class="col-sm-7">White balance:</dt>
-        <dd class="col-sm-5"><%= recipe.white_balance %></dd>
-
-        <dt class="col-sm-7">White balance red:</dt>
-        <dd class="col-sm-5"><%= recipe.white_balance_red %></dd>
-
-        <dt class="col-sm-7">White balance blue:</dt>
-        <dd class="col-sm-5"><%= recipe.white_balance_blue %></dd>
-      </dl>
-    </div>
-  </div>
-
-  <hr class="my-5">
+    <hr class="my-5">
+  <% end %>
 
   <h3 class="h4 text-center mt-5 mb-5">Other recipes</h3>
   <div class="row">
