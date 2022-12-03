@@ -72,7 +72,7 @@
     <div class="col">
       <dl class="row sticky-top pt-3">
         <dt class="col-sm-7">Sensor</dt>
-        <dd class="col-sm-5"><%= link_to recipe.sensor&.name, "/?s=#{recipe.sensor.slug}" %></dd>
+        <dd class="col-sm-5"><%= link_to recipe.sensor&.name, "/?s=#{recipe.sensor&.slug}" %></dd>
 
         <dt class="col-sm-7">Film simulation</dt>
         <dd class="col-sm-5"><%= recipe.film_simulation %></dd>
