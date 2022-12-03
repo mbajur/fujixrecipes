@@ -26,7 +26,7 @@
       <% end %>
 
       <% if recipe.source_type_local? %>
-        <a class="btn btn-outline-secondary" href="<%= new_recipe_path(fork_of: @recipe.to_param) %>">Fork</a>
+        <a class="btn btn-outline-secondary" href="<%= new_local_recipes_path(fork_of: @recipe.to_param) %>">Fork</a>
       <% end %>
 
       <% if current_user == @recipe.user %>

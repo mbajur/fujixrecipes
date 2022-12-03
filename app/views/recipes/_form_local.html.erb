@@ -13,7 +13,7 @@
         </div>
       <% end %>
 
-      <% if recipe.parent.present? %>
+      <% if recipe.parent.present? && !recipe.persisted? %>
         <div>
           <% unless recipe.persisted? %><%= form.hidden_field :parent_id %><% end %>
           <div class="alert alert-info">

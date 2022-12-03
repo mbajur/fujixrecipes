@@ -1,6 +1,7 @@
-<h1>Editing recipe</h1>
+<h1 class="h2 text-center mb-4 mt-4">Editing recipe</h1>
 
-<%= render "form", recipe: @recipe %>
+<% partial = @recipe.source_type_external? ? 'form_external' : 'form_local' %>
+<%= render partial, recipe: @recipe %>
 
 <br>
 
