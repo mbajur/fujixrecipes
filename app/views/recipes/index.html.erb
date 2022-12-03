@@ -9,7 +9,7 @@
       Camera<% if @camera %>: <strong><%= @camera.name %></strong><% end %>
     </a>
     <ul class="dropdown-menu">
-      <% Camera.all.each do |camera| %>
+      <% Camera.all.order(name: :desc).each do |camera| %>
         <li><a class="dropdown-item <%= 'active' if params[:c] == camera.slug %>" href="/?c=<%= camera.slug %>"><%= camera.name %></a></li>
       <% end %>
     </ul>
