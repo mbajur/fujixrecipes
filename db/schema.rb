@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_01_081755) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_03_080741) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -42,6 +42,17 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_01_081755) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "cameras", force: :cascade do |t|
+    t.string "name"
+    t.string "slug"
+    t.bigint "sensor_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_cameras_on_name", unique: true
+    t.index ["sensor_id"], name: "index_cameras_on_sensor_id"
+    t.index ["slug"], name: "index_cameras_on_slug", unique: true
+  end
+
   create_table "recipes", force: :cascade do |t|
     t.integer "film_simulation", default: 0, null: false
     t.integer "dynamic_range", default: 0, null: false
@@ -64,10 +75,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_01_081755) do
     t.text "description"
     t.string "name"
     t.bigint "parent_id"
-    t.integer "sensor"
+    t.integer "sensor_old"
     t.string "original_author"
     t.string "original_url"
+    t.bigint "sensor_id"
     t.index ["parent_id"], name: "index_recipes_on_parent_id"
+    t.index ["sensor_id"], name: "index_recipes_on_sensor_id"
     t.index ["user_id"], name: "index_recipes_on_user_id"
   end
 
@@ -78,6 +91,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_01_081755) do
     t.datetime "updated_at", null: false
     t.index ["recipe_id"], name: "index_saves_on_recipe_id"
     t.index ["user_id"], name: "index_saves_on_user_id"
+  end
+
+  create_table "sensors", force: :cascade do |t|
+    t.string "name"
+    t.string "slug"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_sensors_on_name", unique: true
+    t.index ["slug"], name: "index_sensors_on_slug", unique: true
   end
 
   create_table "users", force: :cascade do |t|
@@ -102,7 +124,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_01_081755) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "cameras", "sensors"
   add_foreign_key "recipes", "recipes", column: "parent_id"
+  add_foreign_key "recipes", "sensors"
   add_foreign_key "recipes", "users"
   add_foreign_key "saves", "recipes"
   add_foreign_key "saves", "users"

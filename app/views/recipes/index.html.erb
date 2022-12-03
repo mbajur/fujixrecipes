@@ -2,31 +2,28 @@
 
 <ul class="nav nav-tabs justify-content-center mb-4">
   <li class="nav-item">
-    <a class="nav-link <%= 'active' unless params[:s] %>" aria-current="page" href="/">All sensors</a>
+    <a class="nav-link disabled">Filter by:</a>
   </li>
-  <li class="nav-item">
-    <a class="nav-link disabled" aria-current="page" href="/" data-bs-title="In the future, it will be possible to define what cameras you own and smart-filter recipes by that">My sensors</a>
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle <%= 'active' if @camera %>" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+      Camera<% if @camera %>: <strong><%= @camera.name %></strong><% end %>
+    </a>
+    <ul class="dropdown-menu">
+      <% Camera.all.each do |camera| %>
+        <li><a class="dropdown-item <%= 'active' if params[:c] == camera.slug %>" href="/?c=<%= camera.slug %>"><%= camera.name %></a></li>
+      <% end %>
+    </ul>
   </li>
-  <li class="nav-item">
-    <a class="nav-link <%= 'active' if params[:s] == 'xtrans1' %>" aria-current="page" href="/?s=xtrans1">X-Trans I</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link <%= 'active' if params[:s] == 'xtrans2' %>" aria-current="page" href="/?s=xtrans2">X-Trans II</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link <%= 'active' if params[:s] == 'xtrans3' %>" aria-current="page" href="/?s=xtrans3">X-Trans III</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link <%= 'active' if params[:s] == 'xtrans4' %>" aria-current="page" href="/?s=xtrans4">X-Trans IV</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link <%= 'active' if params[:s] == 'xtrans5' %>" aria-current="page" href="/?s=xtrans5">X-Trans V</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link <%= 'active' if params[:s] == 'gfx' %>" aria-current="page" href="/?s=gfx">GFX</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link <%= 'active' if params[:s] == 'bayer' %>" aria-current="page" href="/?s=bayer">Bayer</a>
+
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle <%= 'active' if params[:s] %>" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+      Sensor<% if @sensor %>: <strong><%= @sensor.name %></strong><% end %>
+    </a>
+    <ul class="dropdown-menu">
+      <% Sensor.all.each do |sensor| %>
+        <li><a class="dropdown-item <%= 'active' if params[:s] == sensor.slug %>" href="/?s=<%= sensor.slug %>"><%= sensor.name %></a></li>
+      <% end %>
+    </ul>
   </li>
 </ul>
 

@@ -3,6 +3,7 @@ class Recipe < ApplicationRecord
 
   belongs_to :user
   belongs_to :parent, class_name: 'Recipe', optional: true
+  belongs_to :sensor, class_name: 'Sensor', optional: true, foreign_key: :sensor_id
   has_many :saves, class_name: 'Save'
 
   has_one_attached :poster
@@ -58,7 +59,7 @@ class Recipe < ApplicationRecord
     strong: 2
   }, _prefix: true
 
-  enum sensor: {
+  enum sensor_old: {
     gfx: 0,
     bayer: 1,
     xtrans1: 2,

@@ -5,9 +5,25 @@ class RecipesController < ApplicationController
   # GET /recipes or /recipes.json
   def index
     @recipes = Recipe.all.order(id: :desc)
+    @camera = Camera.find_by!(slug: params[:c]) if params[:c]
+    @sensor = Sensor.find_by!(slug: params[:s]) if params[:s]
 
-    if params[:s] && Recipe.sensors.keys.include?(params[:s])
-      @recipes = @recipes.where(sensor: params[:s])
+    sensor_compatibility_matrix = {
+      xtrans1: [:xtrans1],
+      xtrans2: [:xtrans1, :xtrans2],
+      xtrans3: [:xtrans1, :xtrans2, :xtrans3],
+      xtrans4: [:xtrans1, :xtrans2, :xtrans3, :xtrans4],
+      xtrans5: [:xtrans1, :xtrans2, :xtrans3, :xtrans4, :xtrans5],
+      bayer:   [:bayer],
+      gfx:     [:gfx]
+    }
+
+    if @sensor
+      @recipes = @recipes.joins(:sensor).where('sensors.slug': sensor_compatibility_matrix[@sensor.slug.to_sym])
+    end
+
+    if @camera
+      @recipes = @recipes.joins(:sensor).where('sensors.slug': sensor_compatibility_matrix[@camera.sensor.slug.to_sym])
     end
   end
 
@@ -115,7 +131,7 @@ class RecipesController < ApplicationController
                                      :white_balance,
                                      :white_balance_red,
                                      :white_balance_blue,
-                                     :sensor,
+                                     :sensor_id,
                                      :original_author,
                                      :original_url,
                                      :poster,
