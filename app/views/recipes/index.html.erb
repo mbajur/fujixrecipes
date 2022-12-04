@@ -2,7 +2,7 @@
 
 <ul class="nav nav-tabs justify-content-center mb-4">
   <li class="nav-item">
-    <a class="nav-link disabled">Filter by:</a>
+    <a class="nav-link disabled">Filters:</a>
   </li>
   <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle <%= 'active' if @camera %>" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
@@ -10,18 +10,18 @@
     </a>
     <ul class="dropdown-menu">
       <% Camera.all.order(name: :desc).each do |camera| %>
-        <li><a class="dropdown-item <%= 'active' if params[:c] == camera.slug %>" href="/?c=<%= camera.slug %>"><%= camera.name %></a></li>
+        <li><a class="dropdown-item <%= 'active' if @camera == camera %>" href="<%= camera_path(camera.slug) %>"><%= camera.name %></a></li>
       <% end %>
     </ul>
   </li>
 
   <li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle <%= 'active' if params[:s] %>" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+    <a class="nav-link dropdown-toggle <%= 'active' if @sensor %>" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
       Sensor<% if @sensor %>: <strong><%= @sensor.name %></strong><% end %>
     </a>
     <ul class="dropdown-menu">
       <% Sensor.all.each do |sensor| %>
-        <li><a class="dropdown-item <%= 'active' if params[:s] == sensor.slug %>" href="/?s=<%= sensor.slug %>"><%= sensor.name %></a></li>
+        <li><a class="dropdown-item <%= 'active' if @sensor == sensor %>" href="<%= sensor_path(sensor.slug) %>"><%= sensor.name %></a></li>
       <% end %>
     </ul>
   </li>

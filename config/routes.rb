@@ -12,6 +12,9 @@ Rails.application.routes.draw do
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
+  get 'cameras/:slug', as: :camera, to: 'recipes#camera'
+  get 'sensors/:slug', as: :sensor, to: 'recipes#sensor'
+
   # Defines the root path route ("/")
   root "recipes#index"
 end

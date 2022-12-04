@@ -5,26 +5,20 @@ class RecipesController < ApplicationController
   # GET /recipes or /recipes.json
   def index
     @recipes = Recipe.all.order(id: :desc)
-    @camera = Camera.find_by!(slug: params[:c]) if params[:c]
-    @sensor = Sensor.find_by!(slug: params[:s]) if params[:s]
+  end
 
-    sensor_compatibility_matrix = {
-      xtrans1: [:xtrans1],
-      xtrans2: [:xtrans1, :xtrans2],
-      xtrans3: [:xtrans1, :xtrans2, :xtrans3],
-      xtrans4: [:xtrans1, :xtrans2, :xtrans3, :xtrans4],
-      xtrans5: [:xtrans1, :xtrans2, :xtrans3, :xtrans4, :xtrans5],
-      bayer:   [:bayer],
-      gfx:     [:gfx]
-    }
+  def camera
+    @recipes = Recipe.all.order(id: :desc)
+    @camera = Camera.find_by!(slug: params[:slug])
+    @recipes = @recipes.joins(:sensor).where('sensors.slug': sensor_compatibility_matrix[@camera.sensor.slug.to_sym])
+    render :index
+  end
 
-    if @sensor
-      @recipes = @recipes.joins(:sensor).where('sensors.slug': sensor_compatibility_matrix[@sensor.slug.to_sym])
-    end
-
-    if @camera
-      @recipes = @recipes.joins(:sensor).where('sensors.slug': sensor_compatibility_matrix[@camera.sensor.slug.to_sym])
-    end
+  def sensor
+    @recipes = Recipe.all.order(id: :desc)
+    @sensor = Sensor.find_by!(slug: params[:slug])
+    @recipes = @recipes.joins(:sensor).where('sensors.slug': sensor_compatibility_matrix[@sensor.slug.to_sym])
+    render :index
   end
 
   def saved
@@ -153,5 +147,17 @@ class RecipesController < ApplicationController
                                      :name,
                                      :source_type,
                                      :parent_id)
+    end
+
+    def sensor_compatibility_matrix
+      {
+        xtrans1: [:xtrans1],
+        xtrans2: [:xtrans1, :xtrans2],
+        xtrans3: [:xtrans1, :xtrans2, :xtrans3],
+        xtrans4: [:xtrans1, :xtrans2, :xtrans3, :xtrans4],
+        xtrans5: [:xtrans1, :xtrans2, :xtrans3, :xtrans4, :xtrans5],
+        bayer:   [:bayer],
+        gfx:     [:gfx]
+      }
     end
 end

@@ -1,17 +1,17 @@
 <div class="card mb-4">
   <% link = recipe.source_type_external? ? recipe.original_url : [recipe.user, recipe] %>
   <%= link_to link, target: (:_blank if recipe.source_type_external?) do %>
-    <%= image_tag recipe.poster.representation(resize_to_fill: [634, 400]), class: 'card-img-top' %>
+    <%= image_tag recipe.poster.representation(resize_to_fill: [634, 400]), class: 'card-img-top h-100', size: '634x400' %>
   <% end %>
 
   <div class="card-body">
     <% if recipe.sensor %>
       <div style="margin-top: -55px; margin-bottom: 30px">
-        <a class="badge text-bg-dark text-decoration-none" href="/?s=<%= recipe.sensor.slug %>"><%= recipe.sensor.name %></a>
+        <a class="badge text-bg-dark text-decoration-none" href="<%= sensor_path(recipe.sensor.slug) %>"><%= recipe.sensor.name %></a>
       </div>
     <% end %>
 
-    <h5 class="card-title mb-1">
+    <h5 class="card-title mb-1 h6">
       <%= link_to [recipe.user, recipe], class: 'text-reset text-decoration-none' do %>
         <%= recipe.name %><% if recipe.source_type_external? %> <small class="text-muted" title="External recipe" data-bs-toggle="tooltip" data-bs-placement="right">↗</small><% end %>
       <% end %>
