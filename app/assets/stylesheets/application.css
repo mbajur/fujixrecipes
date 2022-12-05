@@ -18,3 +18,13 @@
 .pagination {
   justify-content: center !important;
 }
+
+.border-bottom-radius-none {
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+.border-top-radius-none {
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+}

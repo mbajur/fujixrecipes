@@ -1,5 +1,5 @@
 <% if pagy.next.present? %>
   <div id="next_link" class="text-center mb-5">
-    <%= link_to 'Load more', pagy_url_for(pagy, pagy.next), class: 'btn btn-primary', data: { disable_with: 'Loading...', method: :get, controller: 'auto-click' } %>
+    <%= link_to 'Load more', pagy_url_for(pagy, pagy.next), class: 'btn btn-outline-secondary', data: { disable_with: 'Loading...', method: :get, controller: 'auto-click' } %>
   </div>
 <% end %>

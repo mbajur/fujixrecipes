@@ -1,3 +1,5 @@
+<% set_meta_tags title: @user.username, description: "Recipes posted by #{@user.username}" %>
+
 <%= render layout: 'users/profile_layout' do %>
   <%= render 'recipes/recipes', recipes: @recipes, pagy: @pagy %>
 <% end %>

@@ -64,6 +64,7 @@ group :development do
   # gem "spring"
 
   gem 'bullet'
+  gem 'letter_opener'
 end
 
 group :production do
@@ -72,10 +73,10 @@ group :production do
 end
 
 gem 'devise'
-gem 'omniauth-reddit'
 gem 'image_processing', '>= 1.2'
 gem 'bootstrap_form', '~> 5.1'
 gem 'hashid-rails', '~> 1.0'
 gem 'active_storage_validations'
 gem 'metainspector'
 gem 'pagy'
+gem 'meta-tags'

@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Fuji X Recipes</title>
+    <%= display_meta_tags(default_meta_tags) %>
+
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -16,7 +17,6 @@
     <nav class="navbar navbar-expand-lg bg-light">
       <div class="container">
         <a class="navbar-brand" href="/">Fuji X Recipes</a>
-        <span class="badge text-bg-success">beta</span>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -26,18 +26,30 @@
 
           <% if user_signed_in? %>
             <a class="btn btn-link" href="<%= saved_user_recipes_path(current_user) %>">Saved recipes</a>
-            <a class="btn btn-link" href="<%= destroy_user_session_path %>" data-method="delete">Sign-out</a>
+            <%= button_to 'Sign-out', destroy_user_session_path, class: 'btn btn-link', method: :delete, data: { turbo: false } %>
           <% else %>
-            <%= button_to 'Sign-in with Reddit', user_reddit_omniauth_authorize_path, class: 'btn btn-link', data: { turbo: false } %>
+            <%= button_to 'Sign-in', new_user_session_path, class: 'btn btn-link', data: { turbo: false } %>
           <% end %>
         </div>
       </div>
     </nav>
 
+    <%= yield :hero %>
+
     <div class="container">
-      <div class="alert alert-warning mt-3 text-center">
-        Welcome to Fuji Recipes! Please note that what you see is a proof of concept with minimal valuable design and feature set. Beta available exclusively for reddit users.
-      </div>
+      <% if notice %>
+        <div class="toast-container position-fixed bottom-0 end-0 p-3">
+          <div id="liveToast" class="toast fade show text-bg-info" style="--bs-bg-opacity: .8;" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true">
+            <div class="d-flex">
+              <div class="toast-body">
+                <%= notice %>
+              </div>
+
+              <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+          </div>
+        </div>
+      <% end %>
 
       <%= yield %>
     </div>

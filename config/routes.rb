@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: { omniauth_callbacks: 'callbacks' }
+  devise_for :users
 
   resources :recipes, only: [:index, :new, :create, :edit, :update], param: :hashid, path: '/' do
     post :toggle_save
