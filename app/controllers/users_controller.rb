@@ -1,7 +1,8 @@
 class UsersController < ApplicationController
   def show
     @user = User.find_by!(username: params[:username])
-    @recipes = @user.recipes
+    scope = @user.recipes.order(created_at: :desc)
+    @pagy, @recipes = pagy(scope)
   end
 
   def edit

@@ -4,20 +4,23 @@ class RecipesController < ApplicationController
 
   # GET /recipes or /recipes.json
   def index
-    @recipes = Recipe.all.order(id: :desc)
+    scope = Recipe.all.order(created_at: :desc)
+    @pagy, @recipes = pagy(scope)
   end
 
   def camera
     @recipes = Recipe.all.order(id: :desc)
     @camera = Camera.find_by!(slug: params[:slug])
-    @recipes = @recipes.joins(:sensor).where('sensors.slug': sensor_compatibility_matrix[@camera.sensor.slug.to_sym])
+    scope = @recipes.joins(:sensor).where('sensors.slug': sensor_compatibility_matrix[@camera.sensor.slug.to_sym]).order(created_at: :desc)
+    @pagy, @recipes = pagy(scope)
     render :index
   end
 
   def sensor
     @recipes = Recipe.all.order(id: :desc)
     @sensor = Sensor.find_by!(slug: params[:slug])
-    @recipes = @recipes.joins(:sensor).where('sensors.slug': sensor_compatibility_matrix[@sensor.slug.to_sym])
+    scope = @recipes.joins(:sensor).where('sensors.slug': sensor_compatibility_matrix[@sensor.slug.to_sym]).order(created_at: :desc)
+    @pagy, @recipes = pagy(scope)
     render :index
   end
 
@@ -39,7 +42,8 @@ class RecipesController < ApplicationController
 
   # GET /recipes/1 or /recipes/1.json
   def show
-    @other_recipes = Recipe.where.not(id: @recipe.id)
+    scope = Recipe.where.not(id: @recipe.id).order(created_at: :desc).limit(21)
+    @pagy, @other_recipes = pagy(scope)
   end
 
   # GET /recipes/new

@@ -4,7 +4,7 @@ class Recipe < ApplicationRecord
   belongs_to :user
   belongs_to :parent, class_name: 'Recipe', optional: true
   belongs_to :sensor, class_name: 'Sensor', optional: true, foreign_key: :sensor_id
-  has_many :saves, class_name: 'Save'
+  has_many :saves, class_name: 'Save', dependent: :destroy
 
   has_one_attached :poster
   has_one_attached :photo_1

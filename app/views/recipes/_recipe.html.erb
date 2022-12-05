@@ -140,11 +140,5 @@
   <% end %>
 
   <h3 class="h4 text-center mt-5 mb-5">Other recipes</h3>
-  <div class="row">
-    <% @other_recipes.each do |recipe| %>
-      <div class="col-12 col-md-4">
-        <%= render 'recipes/recipe_card', recipe: recipe %>
-      </div>
-    <% end %>
-  </div>
+  <%= render 'recipes/recipes', recipes: @other_recipes, pagy: @pagy %>
 </div>

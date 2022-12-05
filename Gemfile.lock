@@ -71,6 +71,8 @@ GEM
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
       tzinfo (~> 2.0)
+    addressable (2.8.1)
+      public_suffix (>= 2.0.2, < 6.0)
     aws-eventstream (1.2.0)
     aws-partitions (1.668.0)
     aws-sdk-core (3.168.2)
@@ -106,11 +108,28 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
+    domain_name (0.5.20190701)
+      unf (>= 0.0.5, < 1.0.0)
     erubi (1.11.0)
     faraday (2.7.1)
       faraday-net_http (>= 2.0, < 3.1)
       ruby2_keywords (>= 0.0.4)
+    faraday-cookie_jar (0.0.7)
+      faraday (>= 0.8.0)
+      http-cookie (~> 1.0.0)
+    faraday-encoding (0.0.5)
+      faraday
+    faraday-follow_redirects (0.3.0)
+      faraday (>= 1, < 3)
+    faraday-gzip (0.1.0)
+      faraday (>= 1.0)
+      zlib (~> 2.1)
+    faraday-http-cache (2.4.1)
+      faraday (>= 0.8)
     faraday-net_http (3.0.2)
+    faraday-retry (2.0.0)
+      faraday (~> 2.0)
+    fastimage (2.2.6)
     ffi (1.15.5)
     globalid (1.0.0)
       activesupport (>= 5.0)
@@ -119,6 +138,8 @@ GEM
       hashids (~> 1.0)
     hashids (1.0.6)
     hashie (5.0.0)
+    http-cookie (1.0.5)
+      domain_name (~> 0.5)
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
     image_processing (1.12.2)
@@ -146,6 +167,18 @@ GEM
     mail (2.7.1)
       mini_mime (>= 0.1.1)
     marcel (1.0.2)
+    metainspector (5.13.1)
+      addressable (~> 2.8)
+      faraday (~> 2.5)
+      faraday-cookie_jar (~> 0.0)
+      faraday-encoding (~> 0.0)
+      faraday-follow_redirects (~> 0.3)
+      faraday-gzip (~> 0.1)
+      faraday-http-cache (~> 2.4)
+      faraday-retry (~> 2.0)
+      fastimage (~> 2.2)
+      nesty (~> 1.0)
+      nokogiri (~> 1.13)
     method_source (1.0.0)
     mini_magick (4.11.0)
     mini_mime (1.1.2)
@@ -153,6 +186,7 @@ GEM
     msgpack (1.5.2)
     multi_json (1.15.0)
     multi_xml (0.6.0)
+    nesty (1.0.2)
     net-imap (0.3.1)
       net-protocol
     net-pop (0.1.2)
@@ -178,10 +212,13 @@ GEM
     omniauth-reddit (0.0.3)
       peentar-omniauth-oauth2 (~> 1.4)
     orm_adapter (0.5.0)
+    pagy (5.10.1)
+      activesupport
     peentar-omniauth-oauth2 (1.4.1)
       oauth2 (~> 1.4)
       omniauth (~> 1.2)
     pg (1.3.5)
+    public_suffix (5.0.0)
     puma (5.6.5)
       nio4r (~> 2.0)
     racc (1.6.0)
@@ -243,6 +280,9 @@ GEM
       railties (>= 6.0.0)
     tzinfo (2.0.5)
       concurrent-ruby (~> 1.0)
+    unf (0.1.4)
+      unf_ext
+    unf_ext (0.0.8.2)
     warden (1.2.9)
       rack (>= 2.0.9)
     web-console (4.2.0)
@@ -254,6 +294,7 @@ GEM
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
     zeitwerk (2.6.1)
+    zlib (2.1.1)
 
 PLATFORMS
   x86_64-darwin-20
@@ -271,7 +312,9 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   lograge
+  metainspector
   omniauth-reddit
+  pagy
   pg (~> 1.1)
   puma (~> 5.0)
   rails (~> 7.0.4)

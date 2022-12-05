@@ -14,3 +14,7 @@
  *= require rails_bootstrap_forms
  *= require_self
  */
+
+.pagination {
+  justify-content: center !important;
+}

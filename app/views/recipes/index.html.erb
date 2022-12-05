@@ -27,14 +27,4 @@
   </li>
 </ul>
 
-<div class="row">
-  <% @recipes.each do |recipe| %>
-    <div class="col-12 col-md-4">
-      <%= render 'recipes/recipe_card', recipe: recipe %>
-    </div>
-  <% end %>
-
-  <% if @recipes.none? %>
-    <p class="lead text-center">No recipes to show</p>
-  <% end %>
-</div>
+<%= render 'recipes/recipes', recipes: @recipes, pagy: @pagy %>
