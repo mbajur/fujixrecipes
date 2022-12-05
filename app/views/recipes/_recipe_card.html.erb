@@ -18,10 +18,6 @@
     </h5>
 
     <div class="card-text text-muted small">
-      <% if recipe.original_author.present? %>
-        <%= recipe.original_author %> via
-      <% end %>
-
       <%= link_to recipe.user, class: 'text-reset text-decoration-none' do %>
         <%= image_tag recipe.user.avatar.representation(resize_to_fill: [30, 30]), class: 'rounded-circle', size: '15x15' %>
         <%= recipe.user.display_name || recipe.user.username %>
