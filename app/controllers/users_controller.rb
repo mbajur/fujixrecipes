@@ -1,8 +1,13 @@
 class UsersController < ApplicationController
   def show
     @user = User.find_by!(username: params[:username])
-    scope = @user.recipes.order(created_at: :desc)
+    scope = @user.recipes.order(created_at: :desc).includes([:sensor, :parent, poster_attachment: :blob, user: { avatar_attachment: :blob }])
     @pagy, @recipes = pagy(scope)
+
+    respond_to do |format|
+      format.html
+      format.turbo_stream { render 'recipes/index' }
+    end
   end
 
   def edit

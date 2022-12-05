@@ -4,24 +4,33 @@ class RecipesController < ApplicationController
 
   # GET /recipes or /recipes.json
   def index
-    scope = Recipe.all.order(created_at: :desc)
-    @pagy, @recipes = pagy(scope)
+    scope = Recipe.all.order(created_at: :desc).includes([:sensor, :parent, poster_attachment: :blob, user: { avatar_attachment: :blob }])
+    @pagy, @recipes = pagy_countless(scope)
+
+    respond_to do |format|
+      format.html
+      format.turbo_stream
+    end
   end
 
   def camera
-    @recipes = Recipe.all.order(id: :desc)
+    @recipes = Recipe.all.order(created_at: :desc).includes([:sensor, :parent, poster_attachment: :blob, user: { avatar_attachment: :blob }])
     @camera = Camera.find_by!(slug: params[:slug])
     scope = @recipes.joins(:sensor).where('sensors.slug': sensor_compatibility_matrix[@camera.sensor.slug.to_sym]).order(created_at: :desc)
-    @pagy, @recipes = pagy(scope)
+    @pagy, @recipes = pagy_countless(scope)
     render :index
   end
 
   def sensor
-    @recipes = Recipe.all.order(id: :desc)
+    @recipes = Recipe.all.order(created_at: :desc).includes([:sensor, :parent, poster_attachment: :blob, user: { avatar_attachment: :blob }])
     @sensor = Sensor.find_by!(slug: params[:slug])
     scope = @recipes.joins(:sensor).where('sensors.slug': sensor_compatibility_matrix[@sensor.slug.to_sym]).order(created_at: :desc)
-    @pagy, @recipes = pagy(scope)
-    render :index
+    @pagy, @recipes = pagy_countless(scope)
+
+    respond_to do |format|
+      format.html { render :index }
+      format.turbo_stream { render :index }
+    end
   end
 
   def saved
@@ -42,8 +51,13 @@ class RecipesController < ApplicationController
 
   # GET /recipes/1 or /recipes/1.json
   def show
-    scope = Recipe.where.not(id: @recipe.id).order(created_at: :desc).limit(21)
-    @pagy, @other_recipes = pagy(scope)
+    scope = Recipe.where.not(id: @recipe.id).order(created_at: :desc).limit(21).includes([:user, :sensor, :parent, poster_attachment: :blob])
+    @pagy, @recipes = pagy_countless(scope)
+
+    respond_to do |format|
+      format.html
+      format.turbo_stream { render 'recipes/index' }
+    end
   end
 
   # GET /recipes/new

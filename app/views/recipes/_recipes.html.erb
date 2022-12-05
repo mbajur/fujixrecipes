@@ -1,12 +1,10 @@
-<div class="row">
-  <% recipes.each do |recipe| %>
-    <div class="col-12 col-md-4">
-      <%= render 'recipes/recipe_card', recipe: recipe %>
-    </div>
-  <% end %>
+<div class="row" id="recipes">
+  <%= render 'recipes/recipes_grid', recipes: recipes %>
 </div>
 
-<%== pagy_bootstrap_nav(pagy) if recipes.any? %>
+<% if pagy.next.present? && (local_assigns[:load_more_link] != false) %>
+  <%= render 'recipes/load_more_link', pagy: @pagy %>
+<% end %>
 
 <% if recipes.none? %>
   <p class="lead text-center">No recipes to show</p>
