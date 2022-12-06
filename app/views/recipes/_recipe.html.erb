@@ -22,11 +22,11 @@
           </div>
         </div>
 
-        <div class="col-auto text-right">
+        <div class="col-auto text-right d-flex">
           <% if @recipe.saved_by?(current_user) %>
-            <a class="btn btn-success" href="<%= recipe_toggle_save_path(@recipe) %>" data-method="post">Saved</a>
+            <%= button_to 'Saved', recipe_toggle_save_path(@recipe), class: 'btn btn-success me-1', method: :post, data: { turbo: false } %>
           <% else %>
-            <a class="btn btn-outline-secondary <%= 'disabled' unless user_signed_in? %>" href="<%= recipe_toggle_save_path(@recipe) %>" data-method="post">Save</a>
+            <%= button_to 'Save', recipe_toggle_save_path(@recipe), class: "btn btn-outline-secondary me-1 #{'disabled' unless user_signed_in?}", method: :post, data: { turbo: false } %>
           <% end %>
 
           <% if recipe.source_type_local? %>

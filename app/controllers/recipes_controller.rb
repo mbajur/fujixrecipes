@@ -35,8 +35,13 @@ class RecipesController < ApplicationController
 
   def saved
     @user = User.find_by!(username: params[:user_username])
-    @recipes = @user.saved_recipes.order('saves.id DESC')
-    render 'users/saved'
+    scope = @user.saved_recipes.order('saves.id DESC')
+    @pagy, @recipes = pagy_countless(scope)
+
+    respond_to do |format|
+      format.html { render 'users/saved' }
+      format.turbo_stream { render :index }
+    end
   end
 
   def toggle_save
