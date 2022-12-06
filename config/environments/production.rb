@@ -65,7 +65,7 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
   config.action_mailer.default_url_options = {
-    host: ENV.fetch('HOST', 'localhost:3000'),
+    host: ENV.fetch('HOST', 'fujixweekly.com'),
     protocol: :https
   }
 
