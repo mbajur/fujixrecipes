@@ -64,6 +64,24 @@ Rails.application.configure do
   # config.active_job.queue_name_prefix = "recipes_production"
 
   config.action_mailer.perform_caching = false
+  config.action_mailer.default_url_options = {
+    host: ENV.fetch('HOST', 'localhost:3000')
+  }
+
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+      address: "smtppro.zoho.com",
+      port: 465,
+      domain: "fujixrecipes.com",
+      user_name: ENV['SMTP_LOGIN'],
+      password: ENV['SMTP_PASSWORD'],
+      authentication: :plain,
+      ssl:            true,
+      tls:            true,
+      enable_starttls_auto: true
+  }
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
