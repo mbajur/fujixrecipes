@@ -1,60 +1,70 @@
 <div id="<%= dom_id recipe %>">
-  <div class="row mb-3 align-items-center justify-content-between">
-    <div class="col-6">
-      <h1 class="mb-0"><%= recipe.name %></h1>
-      <% if recipe.original_author.present? %>
-        <span class="text-muted"><%= recipe.original_author %> via</span>
-      <% end %>
+  <div class="row justify-content-center mt-lg-5 mb-lg-3">
+    <div class="col-12 col-lg-8">
+      <div class="row mb-3 align-items-center justify-content-between">
+        <div class="col-6">
+          <h1 class="mb-0 h4"><%= recipe.name %></h1>
+          <div class="small">
+            <% if recipe.original_author.present? %>
+              <span class="text-muted"><%= recipe.original_author %> via</span>
+            <% end %>
 
-      <%= link_to recipe.user, class: 'text-decoration-none' do %>
-        <%= image_tag recipe.user.avatar.representation(resize_to_fill: [15, 15]), class: 'rounded-circle', size: '15x15' %>
-        <%= recipe.user.display_name || recipe.user.username %>
-      <% end %>
+            <%= link_to recipe.user, class: 'text-decoration-none' do %>
+              <%= image_tag avatar_url(recipe.user), class: 'rounded-circle', size: '15x15' %>
+              <%= recipe.user.display_name || recipe.user.username %>
+            <% end %>
 
-      <% if recipe.parent %>
-        <div class="text-muted small d-inline">
-          &bull; Forked from <%= link_to recipe.parent.name, [recipe.parent.user, recipe.parent], class: 'text-reset' %> by <%= link_to (recipe.parent.user.display_name || recipe.parent.user.username), recipe.parent.user, class: 'text-reset' %>
+            <% if recipe.parent %>
+              <div class="text-muted small d-inline">
+                &bull; Forked from <%= link_to recipe.parent.name, [recipe.parent.user, recipe.parent], class: 'text-reset' %> by <%= link_to (recipe.parent.user.display_name || recipe.parent.user.username), recipe.parent.user, class: 'text-reset' %>
+              </div>
+            <% end %>
+          </div>
         </div>
-      <% end %>
-    </div>
 
-    <div class="col-auto text-right">
-      <% if @recipe.saved_by?(current_user) %>
-        <a class="btn btn-success" href="<%= recipe_toggle_save_path(@recipe) %>" data-method="post">Saved</a>
-      <% else %>
-        <a class="btn btn-outline-secondary <%= 'disabled' unless user_signed_in? %>" href="<%= recipe_toggle_save_path(@recipe) %>" data-method="post">Save</a>
-      <% end %>
+        <div class="col-auto text-right">
+          <% if @recipe.saved_by?(current_user) %>
+            <a class="btn btn-success" href="<%= recipe_toggle_save_path(@recipe) %>" data-method="post">Saved</a>
+          <% else %>
+            <a class="btn btn-outline-secondary <%= 'disabled' unless user_signed_in? %>" href="<%= recipe_toggle_save_path(@recipe) %>" data-method="post">Save</a>
+          <% end %>
 
-      <% if recipe.source_type_local? %>
-        <a class="btn btn-outline-secondary" href="<%= new_local_recipes_path(fork_of: @recipe.to_param) %>">Fork</a>
-      <% end %>
+          <% if recipe.source_type_local? %>
+            <a class="btn btn-outline-secondary" href="<%= new_local_recipes_path(fork_of: @recipe.to_param) %>">Fork</a>
+          <% end %>
 
-      <% if current_user == @recipe.user %>
-        <a href="<%= edit_recipe_path(@recipe) %>" class="btn btn-outline-secondary">Edit</a>
-      <% end %>
+          <% if current_user == @recipe.user %>
+            <a href="<%= edit_recipe_path(@recipe) %>" class="btn btn-outline-secondary">Edit</a>
+          <% end %>
+        </div>
+      </div>
     </div>
   </div>
 
   <% if recipe.source_type_external? %>
-    <div class="card mb-3 text-bg-light">
-      <div class="row g-0">
-        <div class="col-md-4">
-          <%= link_to recipe.original_url, target: :_blank do %>
-            <%= image_tag recipe.poster.representation(resize_to_fill: [880, 420]), class: 'img-fluid rounded-start h-100' %>
-          <% end %>
-        </div>
+    <div class="row justify-content-center mb-5">
+      <div class="col-12">
+        <div class="card mb-3 text-bg-light">
+          <div class="row g-0 align-items-center">
+            <div class="col-md-6">
+              <%= link_to recipe.original_url, target: :_blank do %>
+                <%= image_tag recipe.poster.representation(resize_to_fill: [880, 500]), class: 'img-fluid rounded-start' %>
+              <% end %>
+            </div>
 
-        <div class="col-md-8">
-          <div class="card-body">
-            <h5 class="card-title">External recipe for <%= recipe.sensor.name %></h5>
-            <p class="card-text">Original author of this recipe and photos is <strong><%= recipe.original_author %></strong> and this recipe is hosted outside fujixrecipes.
-            Ownership will be transfered to a proper account in cause of him/her opening one. Use the link below to see the original recipe.</p>
+            <div class="col-md-6">
+              <div class="card-body p-md-5">
+                <h5 class="card-title">External recipe for <%= recipe.sensor.name %></h5>
+                <p class="card-text">Original author of this recipe and photos is <strong><%= recipe.original_author %></strong> and this recipe is hosted outside fujixrecipes.
+                Ownership will be transfered to a proper account in cause of him/her opening one. Use the link below to see the original recipe.</p>
 
-            <p class="card-text text-muted small">If you are the author and you don't want this recipe to be here, please reach me at <a href="https://instagram.com/mbajur" class="alert-link" target="_blank">@mbajur</a></p>
+                <p class="card-text text-muted small">If you are the author and you don't want this recipe to be here, please reach me at <a href="https://instagram.com/mbajur" class="alert-link" target="_blank">@mbajur</a></p>
 
-            <hr>
+                <hr>
 
-            <a href="<%= recipe.original_url %>" class="alert-link" target="_blank">See original recipe ↗</a>
+                <a href="<%= recipe.original_url %>" class="btn btn-primary" target="_blank">See original recipe ↗</a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -125,7 +135,10 @@
           <dd class="col-sm-5"><%= recipe.color_chrome_effect_blue %></dd>
 
           <dt class="col-sm-7">White balance:</dt>
-          <dd class="col-sm-5"><%= recipe.white_balance %></dd>
+          <dd class="col-sm-5">
+            <%= recipe.white_balance %>
+            <% if recipe.white_balance_color_temperature? %>(<%= recipe.color_temperature %>K)<% end %>
+          </dd>
 
           <dt class="col-sm-7">White balance red:</dt>
           <dd class="col-sm-5"><%= recipe.white_balance_red %></dd>
@@ -139,6 +152,6 @@
     <hr class="my-5">
   <% end %>
 
-  <h3 class="h4 text-center mt-5 mb-5">Other recipes</h3>
+  <h3 class="h4 text-center mt-5 mb-4">Other recipes</h3>
   <%= render 'recipes/recipes', recipes: @recipes, pagy: @pagy %>
 </div>

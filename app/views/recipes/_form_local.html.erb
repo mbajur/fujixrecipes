@@ -1,6 +1,6 @@
 <div class="row justify-content-center">
   <div class="col-8">
-    <%= bootstrap_form_with(model: recipe) do |form| %>
+    <%= bootstrap_form_with(model: recipe, data: { turbo: false }) do |form| %>
       <% if recipe.errors.any? %>
         <div style="color: red">
           <h2><%= pluralize(recipe.errors.count, "error") %> prohibited this recipe from being saved:</h2>
@@ -87,8 +87,12 @@
       </div>
 
       <div class="row">
-        <div class="col">
+        <div class="col-2">
           <%= form.select :white_balance, Recipe.white_balances.keys %>
+        </div>
+
+        <div class="col">
+          <%= form.number_field :color_temperature, help: 'Required only if White Balance is set to Color Temperature' %>
         </div>
 
         <div class="col">
@@ -100,17 +104,26 @@
         </div>
       </div>
 
-      <div class="row">
+      <div class="row mb-3">
         <div class="col">
           <%= form.file_field :poster, direct_upload: true, help: 'Required' %>
+          <% if form.object.poster.attached? %>
+            <%= image_tag form.object.poster.representation(resize_to_fill: [300, 150]) %>
+          <% end %>
         </div>
 
         <div class="col">
           <%= form.file_field :photo_1, direct_upload: true, help: 'Optional' %>
+          <% if form.object.photo_1.attached? %>
+            <%= image_tag form.object.photo_1.representation(resize_to_fill: [300, 150]) %>
+          <% end %>
         </div>
 
         <div class="col">
           <%= form.file_field :photo_2, direct_upload: true, help: 'Optional' %>
+          <% if form.object.photo_2.attached? %>
+            <%= image_tag form.object.photo_2.representation(resize_to_fill: [300, 150]) %>
+          <% end %>
         </div>
       </div>
 

@@ -1,7 +1,7 @@
 <%= render layout: 'devise/layout' do %>
   <h1 class="h3 mb-4 fw-normal">Sign in</h1>
 
-  <%= form_for(resource, as: resource_name, url: session_path(resource_name), data: { turbo: false }) do |f| %>
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { data: { turbo: false } }) do |f| %>
     <div class="form-floating" style="border-bottom-radius: 0">
       <%= f.email_field :email, autofocus: true, autocomplete: "email", class: 'form-control border-bottom-radius-none' %>
       <%= f.label :email %>

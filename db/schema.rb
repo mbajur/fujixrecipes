@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_03_105230) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_06_152820) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -80,6 +80,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_03_105230) do
     t.string "original_url"
     t.bigint "sensor_id"
     t.integer "source_type", default: 0
+    t.integer "color_temperature"
     t.index ["parent_id"], name: "index_recipes_on_parent_id"
     t.index ["sensor_id"], name: "index_recipes_on_sensor_id"
     t.index ["user_id"], name: "index_recipes_on_user_id"
@@ -117,9 +118,18 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_03_105230) do
     t.string "reddit_uid"
     t.string "website"
     t.boolean "staff", default: false
+    t.string "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
+    t.string "unconfirmed_email"
+    t.integer "failed_attempts", default: 0, null: false
+    t.string "unlock_token"
+    t.datetime "locked_at"
+    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reddit_uid"], name: "index_users_on_reddit_uid", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 

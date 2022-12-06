@@ -14,6 +14,10 @@ class User < ApplicationRecord
   has_many :saved_recipes, through: :saves, source: :recipe
 
   validates :avatar, content_type: /\Aimage\/.*\z/
+  validates :username, presence: true, uniqueness: true
+  validates :username, format: { with: /\A[a-z0-9_]+\z/i }, length: { maximum: 30 }
+  validates :display_name, length: { maximum: 30 }
+  validates :bio, length: { maximum: 500 }
 
   def to_param
     username

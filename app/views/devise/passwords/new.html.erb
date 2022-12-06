@@ -1,7 +1,7 @@
 <%= render layout: 'devise/layout' do %>
   <h1 class="h3 mb-4 fw-normal">Forgot your password?</h1>
 
-  <%= bootstrap_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+  <%= bootstrap_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, data: { turbo: false } }) do |f| %>
     <%= render "devise/shared/error_messages", resource: resource %>
 
     <div class="field">

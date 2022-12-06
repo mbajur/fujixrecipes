@@ -44,7 +44,17 @@ class Recipe < ApplicationRecord
   }, _prefix: true
 
   enum white_balance: {
-    auto: 0
+    auto: 0,
+    white_priority: 1,
+    ambience_priority: 2,
+    color_temperature: 3,
+    daylight: 4,
+    shade: 5,
+    fluorescent_light_1: 6,
+    fluorescent_light_2: 7,
+    fluorescent_light_3: 8,
+    incandescent: 9,
+    underwater: 10
   }, _prefix: true
 
   enum color_chrome_effect: {
@@ -67,6 +77,8 @@ class Recipe < ApplicationRecord
   validates :name, presence: true
   validates :sensor, presence: true
   validates :poster, attached: true, content_type: :jpg
+
+  validates :color_temperature, presence: true, numericality: true, if: :white_balance_color_temperature?
 
   with_options if: :source_type_local? do |recipe|
     recipe.validates :film_simulation, presence: true

@@ -153,6 +153,7 @@ class RecipesController < ApplicationController
                                      :color_chrome_effect,
                                      :color_chrome_effect_blue,
                                      :white_balance,
+                                     :color_temperature,
                                      :white_balance_red,
                                      :white_balance_blue,
                                      :sensor_id,
