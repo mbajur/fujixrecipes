@@ -4,9 +4,11 @@ class UsersController < ApplicationController
     scope = @user.recipes.order(created_at: :desc).includes([:sensor, :parent, poster_attachment: :blob, user: { avatar_attachment: :blob }])
     @pagy, @recipes = pagy(scope)
 
-    respond_to do |format|
-      format.html
-      format.turbo_stream { render 'recipes/index' }
+    if params[:page]
+      respond_to do |format|
+        format.html
+        format.turbo_stream { render 'recipes/index' }
+      end
     end
   end
 

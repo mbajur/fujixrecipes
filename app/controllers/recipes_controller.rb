@@ -7,9 +7,11 @@ class RecipesController < ApplicationController
     scope = Recipe.all.order(created_at: :desc).includes([:sensor, :parent, poster_attachment: :blob, user: { avatar_attachment: :blob }])
     @pagy, @recipes = pagy_countless(scope)
 
-    respond_to do |format|
-      format.html
-      format.turbo_stream
+    if params[:page]
+      respond_to do |format|
+        format.html
+        format.turbo_stream
+      end
     end
   end
 
@@ -27,10 +29,7 @@ class RecipesController < ApplicationController
     scope = @recipes.joins(:sensor).where('sensors.slug': sensor_compatibility_matrix[@sensor.slug.to_sym]).order(created_at: :desc)
     @pagy, @recipes = pagy_countless(scope)
 
-    respond_to do |format|
-      format.html { render :index }
-      format.turbo_stream { render :index }
-    end
+    render :index
   end
 
   def saved
@@ -59,9 +58,11 @@ class RecipesController < ApplicationController
     scope = Recipe.where.not(id: @recipe.id).order(created_at: :desc).limit(21).includes([:user, :sensor, :parent, poster_attachment: :blob])
     @pagy, @recipes = pagy_countless(scope)
 
-    respond_to do |format|
-      format.html
-      format.turbo_stream { render 'recipes/index' }
+    if params[:page]
+      respond_to do |format|
+        format.html
+        format.turbo_stream { render 'recipes/index' }
+      end
     end
   end
 
