@@ -1,5 +1,1 @@
-<% recipes.each do |recipe| %>
-  <div class="col-12 col-md-4">
-    <%= render 'recipes/recipe_card', recipe: recipe %>
-  </div>
-<% end %>
+<%= render collection: recipes, partial: 'recipes/recipe_card', as: :recipe %>
