@@ -32,4 +32,8 @@ SitemapGenerator::Sitemap.create do
   Sensor.find_each do |sensor|
     add sensor_path(sensor), priority: 0.8, changefreq: 'daily'
   end
+
+  User.find_each do |user|
+    add user_path(user), priority: 0.7, changefreq: 'daily'
+  end
 end
