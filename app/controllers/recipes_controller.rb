@@ -6,6 +6,7 @@ class RecipesController < ApplicationController
   def index
     scope = Recipe.all.order(created_at: :desc).includes([:sensor, :parent, poster_attachment: :blob, user: { avatar_attachment: :blob }])
     @pagy, @recipes = pagy_countless(scope)
+    @saves = find_saves(@recipes)
 
     if params[:page]
       respond_to do |format|
@@ -20,6 +21,7 @@ class RecipesController < ApplicationController
     @camera = Camera.find_by!(slug: params[:slug])
     scope = @recipes.joins(:sensor).where('sensors.slug': sensor_compatibility_matrix[@camera.sensor.slug.to_sym]).order(created_at: :desc)
     @pagy, @recipes = pagy_countless(scope)
+    @saves = find_saves(@recipes)
     render :index
   end
 
@@ -28,6 +30,7 @@ class RecipesController < ApplicationController
     @sensor = Sensor.find_by!(slug: params[:slug])
     scope = @recipes.joins(:sensor).where('sensors.slug': sensor_compatibility_matrix[@sensor.slug.to_sym]).order(created_at: :desc)
     @pagy, @recipes = pagy_countless(scope)
+    @saves = find_saves(@recipes)
 
     render :index
   end
@@ -36,6 +39,7 @@ class RecipesController < ApplicationController
     @user = User.find_by!(username: params[:user_username])
     scope = @user.saved_recipes.order('saves.id DESC')
     @pagy, @recipes = pagy_countless(scope)
+    @saves = find_saves(@recipes)
 
     respond_to do |format|
       format.html { render 'users/saved' }
@@ -46,17 +50,31 @@ class RecipesController < ApplicationController
   def toggle_save
     authenticate_user!
 
-    recipe = Recipe.find(params[:recipe_hashid])
-    save = recipe.saves.find_or_initialize_by(user: current_user)
+    @recipe = Recipe.find(params[:recipe_hashid])
+    save = @recipe.saves.find_or_initialize_by(user: current_user)
     save.persisted? ? save.destroy : save.save!
 
-    redirect_back fallback_location: [recipe.user, recipe]
+    if params[:card]
+      render(
+        turbo_stream: turbo_stream.replace(
+          helpers.dom_id(@recipe, :card),
+          partial: 'recipes/recipe_card',
+          locals:  {
+            recipe: @recipe,
+            saves:  find_saves(@recipe)
+          }
+        )
+      )
+    else
+      redirect_back fallback_location: [@recipe.user, @recipe]
+    end
   end
 
   # GET /recipes/1 or /recipes/1.json
   def show
     scope = Recipe.where.not(id: @recipe.id).order(created_at: :desc).limit(21).includes([:user, :sensor, :parent, poster_attachment: :blob])
     @pagy, @recipes = pagy_countless(scope)
+    @saves = find_saves(@recipes)
 
     if params[:page]
       respond_to do |format|

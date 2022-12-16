@@ -1,5 +1,5 @@
 <div class="row" id="recipes">
-  <%= render 'recipes/recipes_grid', recipes: recipes %>
+  <%= render 'recipes/recipes_grid', recipes: recipes, saves: saves, pagy: @pagy %>
 </div>
 
 <% if pagy.next.present? && (local_assigns[:load_more_link] != false) %>

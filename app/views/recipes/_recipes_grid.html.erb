@@ -1,1 +1,1 @@
-<%= render collection: recipes, partial: 'recipes/recipe_card', as: :recipe %>
+<%= render collection: recipes, partial: 'recipes/recipe_card', as: :recipe, locals: { saves: saves, pagy: pagy } %>
