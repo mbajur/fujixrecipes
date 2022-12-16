@@ -1,2 +1,3 @@
 User-agent: *
 Allow: /
+Sitemap: https://fujixrecipes.com/sitemap.xml.gz
