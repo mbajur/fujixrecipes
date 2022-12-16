@@ -3,6 +3,7 @@ class UsersController < ApplicationController
     @user = User.find_by!(username: params[:username])
     scope = @user.recipes.order(created_at: :desc).includes([:sensor, :parent, poster_attachment: :blob, user: { avatar_attachment: :blob }])
     @pagy, @recipes = pagy(scope)
+    @saves = find_saves(@recipes)
 
     if params[:page]
       respond_to do |format|

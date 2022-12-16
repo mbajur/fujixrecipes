@@ -1,5 +1,5 @@
 <%= turbo_stream.append 'recipes' do %>
-  <%= render 'recipes/recipes_grid', recipes: @recipes %>
+  <%= render 'recipes/recipes_grid', recipes: @recipes, saves: @saves, pagy: @pagy %>
 <% end %>
 
 <%= turbo_stream.update "next_link" do %>

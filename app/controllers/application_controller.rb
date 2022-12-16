@@ -17,4 +17,8 @@ class ApplicationController < ActionController::Base
       id: current_user.id
     )
   end
+
+  def find_saves(scope)
+    user_signed_in? ? Save.where(user: current_user, recipe: scope).map(&:recipe_id) : []
+  end
 end

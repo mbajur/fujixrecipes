@@ -1,4 +1,4 @@
-<div class="col-12 col-md-4">
+<div class="col-12 col-md-4" id="<%= dom_id(recipe, :card) %>">
   <div class="card mb-4">
     <% link = recipe.source_type_external? ? recipe.original_url : [recipe.user, recipe] %>
     <%= link_to link, target: (:_blank if recipe.source_type_external?) do %>
@@ -29,17 +29,33 @@
         <% end %>
       </h5>
 
-      <div class="card-text text-muted small">
-        <%= link_to recipe.user, class: 'text-reset text-decoration-none' do %>
-          <%= image_tag avatar_url(recipe.user), class: 'rounded-circle', size: '15x15' %>
-          <%= recipe.user.display_name || recipe.user.username %>
-        <% end %>
+      <div class="card-text text-muted small d-flex">
+        <div>
+          <%= link_to recipe.user, class: 'text-reset text-decoration-none' do %>
+            <%= image_tag avatar_url(recipe.user), class: 'rounded-circle', size: '15x15' %>
+            <%= recipe.user.display_name || recipe.user.username %>
+          <% end %>
 
-        <% if recipe.parent %>
-          <div class="d-inline opacity-50">
-            &bull; Forked from <%= link_to recipe.parent.name, [recipe.parent.user, recipe.parent], class: 'text-reset' %> by <%= link_to (recipe.parent.user.display_name || recipe.parent.user.username), recipe.parent.user, class: 'text-reset' %>
-          </div>
-        <% end %>
+          <% if recipe.parent %>
+            <div class="d-inline opacity-50">
+              &bull; Forked from <%= link_to recipe.parent.name, [recipe.parent.user, recipe.parent], class: 'text-reset' %> by <%= link_to (recipe.parent.user.display_name || recipe.parent.user.username), recipe.parent.user, class: 'text-reset' %>
+            </div>
+          <% end %>
+        </div>
+
+        <div class="ms-auto">
+          <% btn_style = "--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem; margin-top: -0.6rem; margin-right: -0.3rem; margin-bottom: -0.6rem;" %>
+
+          <% if user_signed_in? %>
+            <% if saves.include?(recipe.id) %>
+              <%= button_to 'Saved', recipe_toggle_save_path(recipe, card: true), class: "btn btn-success btn-sm", style: btn_style, method: :post %>
+            <% else %>
+              <%= button_to 'Save', recipe_toggle_save_path(recipe, card: true), class: "btn btn-outline-secondary btn-sm #{'disabled' unless user_signed_in?}", style: btn_style, method: :post %>
+            <% end %>
+          <% else %>
+            <a href="<%= new_user_session_path %>" class="btn btn-outline-secondary btn-sm" style="<%= btn_style %>" title="Sign-in to save this recipe">Save</a>
+          <% end %>
+        </div>
       </div>
     </div>
   </div>
