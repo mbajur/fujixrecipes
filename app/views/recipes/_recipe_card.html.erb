@@ -16,7 +16,7 @@
     <div class="card-body">
       <% if recipe.sensor %>
         <div style="margin-top: -55px; margin-bottom: 30px">
-          <a class="badge text-bg-dark text-decoration-none" href="<%= sensor_path(recipe.sensor.slug) %>"><%= recipe.sensor.name %></a>
+          <a class="badge text-bg-dark text-decoration-none" href="<%= sensor_path(recipe.sensor) %>"><%= recipe.sensor.name %></a>
           <% if recipe.source_type_external? %>
             <abbr href="" class="badge text-bg-light text-decoration-none opacity-50" title="External recipe, hosted on another website">E↗</abbr>
           <% end %>
