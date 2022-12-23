@@ -21,7 +21,10 @@
         <div>
           <div class="d-inline-block d-md-none">
             <a href="<%= new_recipe_path %>" class="btn btn-outline-success"><i data-feather="plus"></i></a>
-            <a href="<%= saved_user_recipes_path(current_user) %>" class="btn btn-outline-secondary"><i data-feather="bookmark"></i></a>
+
+            <% if user_signed_in? %>
+              <a href="<%= saved_user_recipes_path(current_user) %>" class="btn btn-outline-secondary"><i data-feather="bookmark"></i></a>
+            <% end %>
           </div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
