@@ -1,5 +1,5 @@
 <%= content_for :hero do %>
-  <div class="bg-dark py-4 mb-4" style="--bs-bg-opacity: .1;">
+  <div class="bg-dark py-4 mb-4 text-light">
     <div class="container">
       <div class="text-center">
         <p class="lead">
@@ -16,7 +16,7 @@
 
         <div class="btn-group">
           <div class="dropdown">
-            <a href="#" class="btn dropdown-toggle <%= @camera ? 'btn-primary' : 'btn-outline-secondary' %>" data-bs-toggle="dropdown">Camera <% if @camera %>: <strong><%= @camera.name %></strong><% end %></a>
+            <a href="#" class="btn dropdown-toggle <%= @camera ? 'btn-secondary' : 'btn-outline-secondary' %>" data-bs-toggle="dropdown">Camera <% if @camera %>: <strong><%= @camera.name %></strong><% end %></a>
             <ul class="dropdown-menu">
               <% Camera.all.order(name: :desc).each do |camera| %>
                 <li><a class="dropdown-item <%= 'active' if @camera == camera %>" href="<%= camera_path(camera) %>"><%= camera.name %></a></li>
@@ -25,7 +25,7 @@
           </div>
 
           <div class="dropdown ms-2">
-            <a href="#" class="btn dropdown-toggle <%= @sensor ? 'btn-primary' : 'btn-outline-secondary' %>" data-bs-toggle="dropdown">Sensor <% if @sensor %>: <strong><%= @sensor.name %></strong><% end %></a>
+            <a href="#" class="btn dropdown-toggle <%= @sensor ? 'btn-secondary' : 'btn-outline-secondary' %>" data-bs-toggle="dropdown">Sensor <% if @sensor %>: <strong><%= @sensor.name %></strong><% end %></a>
             <ul class="dropdown-menu">
               <% Sensor.all.each do |sensor| %>
                 <li><a class="dropdown-item <%= 'active' if @sensor == sensor %>" href="<%= sensor_path(sensor) %>"><%= sensor.name %></a></li>

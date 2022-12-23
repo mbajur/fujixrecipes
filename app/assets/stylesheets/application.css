@@ -28,3 +28,9 @@
   border-top-left-radius: 0 !important;
   border-top-right-radius: 0 !important;
 }
+
+.card-recipe {
+  border: 0 !important;
+  background: #f9f9f9 !important;
+  box-shadow: 0 1px 1px #eee;
+}
