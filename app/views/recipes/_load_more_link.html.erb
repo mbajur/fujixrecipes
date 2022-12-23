@@ -1,5 +1,12 @@
 <% if pagy.next.present? %>
-  <div id="next_link" class="text-center mb-5">
-    <%= link_to 'Load more', pagy_url_for(pagy, pagy.next), class: 'btn btn-outline-secondary', data: { disable_with: 'Loading...', method: :get, controller: 'auto-click' } %>
-  </div>
+  <% if user_signed_in? || pagy.page < 2 %>
+    <div id="next_link" class="text-center mb-5">
+      <%= link_to 'Load more', pagy_url_for(pagy, pagy.next), class: 'btn btn-outline-secondary', data: { disable_with: 'Loading...', method: :get, controller: 'auto-click' } %>
+    </div>
+  <% else %>
+    <div class="text-center mt-4 mb-5">
+      <a href="<%= new_user_registration_path %>" class="btn btn-primary">Sign up to continue</a>
+      <a href="<%= new_user_session_path %>" class="btn btn-link">or sign in</a>
+    </div>
+  <% end %>
 <% end %>
