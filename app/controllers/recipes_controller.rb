@@ -20,7 +20,7 @@ class RecipesController < ApplicationController
 
   def camera
     @recipes = Recipe.all.order(created_at: :desc).includes([:sensor, :parent, poster_attachment: :blob, user: { avatar_attachment: :blob }])
-    scope = @recipes.joins(:sensor).where('sensors.slug': sensor_compatibility_matrix[@camera.sensor.slug.to_sym]).order(created_at: :desc)
+    scope = @recipes.joins(:sensor).where('sensors.slug': Sensor.compatibility_matrix[@camera.sensor.slug.to_sym]).order(created_at: :desc)
     @pagy, @recipes = pagy_countless(scope)
     @saves = find_saves(@recipes)
     render :index
@@ -28,7 +28,7 @@ class RecipesController < ApplicationController
 
   def sensor
     @recipes = Recipe.all.order(created_at: :desc).includes([:sensor, :parent, poster_attachment: :blob, user: { avatar_attachment: :blob }])
-    scope = @recipes.joins(:sensor).where('sensors.slug': sensor_compatibility_matrix[@sensor.slug.to_sym]).order(created_at: :desc)
+    scope = @recipes.joins(:sensor).where('sensors.slug': Sensor.compatibility_matrix[@sensor.slug.to_sym]).order(created_at: :desc)
     @pagy, @recipes = pagy_countless(scope)
     @saves = find_saves(@recipes)
 
@@ -208,17 +208,5 @@ class RecipesController < ApplicationController
                                      :name,
                                      :source_type,
                                      :parent_id)
-    end
-
-    def sensor_compatibility_matrix
-      {
-        xtrans1: [:xtrans1],
-        xtrans2: [:xtrans1, :xtrans2],
-        xtrans3: [:xtrans1, :xtrans2, :xtrans3],
-        xtrans4: [:xtrans1, :xtrans2, :xtrans3, :xtrans4],
-        xtrans5: [:xtrans1, :xtrans2, :xtrans3, :xtrans4, :xtrans5],
-        bayer:   [:bayer],
-        gfx:     [:gfx]
-      }
     end
 end

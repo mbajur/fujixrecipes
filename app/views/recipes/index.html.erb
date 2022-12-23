@@ -19,7 +19,17 @@
             <a href="#" class="btn dropdown-toggle <%= @camera ? 'btn-secondary' : 'btn-outline-secondary' %>" data-bs-toggle="dropdown">Camera <% if @camera %>: <strong><%= @camera.name %></strong><% end %></a>
             <ul class="dropdown-menu">
               <% Camera.all.order(name: :desc).each do |camera| %>
-                <li><a class="dropdown-item <%= 'active' if @camera == camera %>" href="<%= camera_path(camera) %>"><%= camera.name %></a></li>
+                <li>
+                  <a class="dropdown-item d-flex justify-content-between <%= 'active' if @camera == camera %>" href="<%= camera_path(camera) %>">
+                    <div class="ms-2 me-auto">
+                      <%= camera.name %>
+                    </div>
+
+                    <div>
+                      <span class="badge bg-secondary rounded-pill opacity-50" title="<%= pluralize camera.recipes_count, 'recipe' %>"><%= camera.recipes_count %></span>
+                    </div>
+                  </a>
+                </li>
               <% end %>
             </ul>
           </div>
@@ -28,7 +38,17 @@
             <a href="#" class="btn dropdown-toggle <%= @sensor ? 'btn-secondary' : 'btn-outline-secondary' %>" data-bs-toggle="dropdown">Sensor <% if @sensor %>: <strong><%= @sensor.name %></strong><% end %></a>
             <ul class="dropdown-menu">
               <% Sensor.all.each do |sensor| %>
-                <li><a class="dropdown-item <%= 'active' if @sensor == sensor %>" href="<%= sensor_path(sensor) %>"><%= sensor.name %></a></li>
+                <li>
+                  <a class="dropdown-item d-flex justify-content-between <%= 'active' if @sensor == sensor %>" href="<%= sensor_path(sensor) %>">
+                    <div class="ms-2 me-auto">
+                      <%= sensor.name %>
+                    </div>
+
+                    <div>
+                      <span class="badge bg-secondary rounded-pill opacity-50" title="<%= pluralize sensor.recipes_count, 'recipe' %>"><%= sensor.recipes_count %></span>
+                    </div>
+                  </a>
+                </li>
               <% end %>
             </ul>
           </div>

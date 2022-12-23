@@ -20,6 +20,14 @@ class CleanupOldCronoJobsJob
   end
 end
 
+class CalculateRecipesCountForCamerasJob
+  def perform
+    Camera.all.each do |camera|
+      camera.update(recipes_count: Recipe.joins(:sensor).where('sensors.slug': Sensor.compatibility_matrix[camera.sensor.slug.to_sym]).count)
+    end
+  end
+end
+
 class IvanYoloScrapJob
   def perform
     Scrappers::IvanYoloScrapper.new(username: ENV.fetch('IVAN_YOLO_SCRAPPER_USERNAME'), logger: Crono.logger).call
@@ -56,6 +64,7 @@ class FujiWeeklyScrapJob
 end
 
 Crono.perform(CleanupOldCronoJobsJob).every 1.day
+Crono.perform(CalculateRecipesCountForCamerasJob).every 10.minutes
 Crono.perform(IvanYoloScrapJob).every 6.hours
 Crono.perform(FilmRecipesScrapJob).every 6.hours
 Crono.perform(FujiWeeklyScrapJob).every 6.hours

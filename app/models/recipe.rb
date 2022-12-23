@@ -3,7 +3,7 @@ class Recipe < ApplicationRecord
 
   belongs_to :user
   belongs_to :parent, class_name: 'Recipe', optional: true
-  belongs_to :sensor, class_name: 'Sensor', optional: true, foreign_key: :sensor_id
+  belongs_to :sensor, class_name: 'Sensor', optional: true, foreign_key: :sensor_id, counter_cache: true
   has_many :saves, class_name: 'Save', dependent: :destroy
 
   has_one_attached :poster
