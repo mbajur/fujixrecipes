@@ -1,6 +1,8 @@
 class RecipesController < ApplicationController
   before_action :authenticate_user!, only: %i[ create update edit new destroy ]
   before_action :set_recipe, only: %i[ show edit update destroy ]
+  before_action :set_camera, only: %i[camera]
+  before_action :set_sensor, only: %i[sensor]
 
   # GET /recipes or /recipes.json
   def index
@@ -18,7 +20,6 @@ class RecipesController < ApplicationController
 
   def camera
     @recipes = Recipe.all.order(created_at: :desc).includes([:sensor, :parent, poster_attachment: :blob, user: { avatar_attachment: :blob }])
-    @camera = Camera.find_by!(slug: params[:slug])
     scope = @recipes.joins(:sensor).where('sensors.slug': sensor_compatibility_matrix[@camera.sensor.slug.to_sym]).order(created_at: :desc)
     @pagy, @recipes = pagy_countless(scope)
     @saves = find_saves(@recipes)
@@ -27,7 +28,6 @@ class RecipesController < ApplicationController
 
   def sensor
     @recipes = Recipe.all.order(created_at: :desc).includes([:sensor, :parent, poster_attachment: :blob, user: { avatar_attachment: :blob }])
-    @sensor = Sensor.find_by!(slug: params[:slug])
     scope = @recipes.joins(:sensor).where('sensors.slug': sensor_compatibility_matrix[@sensor.slug.to_sym]).order(created_at: :desc)
     @pagy, @recipes = pagy_countless(scope)
     @saves = find_saves(@recipes)
@@ -157,6 +157,24 @@ class RecipesController < ApplicationController
   end
 
   private
+    # Remove these two methods once google indexed cameras and sensors properly
+    def set_camera
+      if params[:slug].to_i.to_s == params[:slug]
+        redirect_to camera_path(Camera.find(params[:slug]))
+      else
+        @camera = Camera.find_by!(slug: params[:slug])
+      end
+    end
+
+    # Remove these two methods once google indexed cameras and sensors properly
+    def set_sensor
+      if params[:slug].to_i.to_s == params[:slug]
+        redirect_to sensor_path(Sensor.find(params[:slug]))
+      else
+        @sensor = Sensor.find_by!(slug: params[:slug])
+      end
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_recipe
       @recipe = Recipe.find(params[:hashid])
