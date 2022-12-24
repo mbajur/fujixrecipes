@@ -2,7 +2,7 @@
   <div class="card card-recipe mb-4">
     <% link = recipe.source_type_external? ? recipe.original_url : [recipe.user, recipe] %>
     <%= link_to link, target: (:_blank if recipe.source_type_external?) do %>
-      <%= image_tag recipe.poster.representation(resize_to_fill: [634, 400]), class: 'card-img-top h-100', size: '634x400' %>
+      <%= image_tag recipe.poster.representation(resize_to_fill: [634, 400]), class: 'card-img-top h-100', size: '634x400', style: "background-color:#{recipe.poster.blob.metadata['dominant_color']}" %>
     <% end %>
 
     <div class="card-img-overlay bg-gradient" style="height:3rem;">
