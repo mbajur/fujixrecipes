@@ -46,11 +46,17 @@
         <div class="ms-auto">
           <% btn_style = "--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem; margin-top: -0.6rem; margin-right: -0.3rem; margin-bottom: -0.6rem;" %>
 
+          <% if recipe.saves_count.positive? %>
+            <span class="d-inline-block btn btn-link disabled text-decoration-none" style="<%= btn_style %>" title="Recipe saved <%= pluralize(recipe.saves.count, 'time') %>">
+              <%= recipe.saves_count %>
+            </span>
+          <% end %>
+
           <% if user_signed_in? %>
             <% if saves.include?(recipe.id) %>
-              <%= button_to 'Saved', recipe_toggle_save_path(recipe, card: true), class: "btn btn-success btn-sm", style: btn_style, method: :post %>
+              <%= button_to 'Saved', recipe_toggle_save_path(recipe, card: true), form_class: 'd-inline-block', class: "btn btn-success btn-sm", style: btn_style, method: :post %>
             <% else %>
-              <%= button_to 'Save', recipe_toggle_save_path(recipe, card: true), class: "btn btn-outline-secondary btn-sm #{'disabled' unless user_signed_in?}", style: btn_style, method: :post %>
+              <%= button_to 'Save', recipe_toggle_save_path(recipe, card: true), form_class: 'd-inline-block', class: "btn btn-outline-secondary btn-sm #{'disabled' unless user_signed_in?}", style: btn_style, method: :post %>
             <% end %>
           <% else %>
             <a href="<%= new_user_session_path %>" class="btn btn-outline-secondary btn-sm" style="<%= btn_style %>" title="Sign-in to save this recipe">Save</a>
