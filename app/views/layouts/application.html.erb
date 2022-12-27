@@ -17,7 +17,7 @@
   <body>
     <nav class="navbar navbar-expand-lg bg-light">
       <div class="container">
-        <a class="navbar-brand" href="/">Fuji X Recipes</a>
+        <a class="navbar-brand h1 mb-0" href="/">Fuji X Recipes</a>
         <div>
           <div class="d-inline-block d-md-none">
             <a href="<%= new_recipe_path %>" class="btn btn-outline-success"><i data-feather="plus"></i></a>
@@ -34,13 +34,28 @@
           <div class="me-auto mb-2 mb-lg-0"></div>
           <a class="btn btn-outline-success d-none d-md-inline-block me-3" href="<%= new_recipe_path %>">+ Add recipe</a>
 
-          <% if user_signed_in? %>
-            <a class="btn btn-link" href="<%= user_path(current_user) %>">Your profile</a>
-            <a class="btn btn-link d-none d-md-inline-block" href="<%= saved_user_recipes_path(current_user) %>">Saved recipes</a>
-            <%= button_to 'Sign-out', destroy_user_session_path, class: 'btn btn-link', method: :delete, data: { turbo: false } %>
-          <% else %>
-            <%= button_to 'Sign-in', new_user_session_path, class: 'btn btn-link', data: { turbo: false } %>
-          <% end %>
+          <ul class="navbar-nav">
+            <% if user_signed_in? %>
+              <li class="nav-item d-none d-md-inline-block"><a href="<%= saved_user_recipes_path(current_user) %>" class="nav-link">Saved recipes</a></li>
+              <li class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                  <%= image_tag avatar_url(current_user, 25, 25), class: 'rounded-circle', size: '25x25' %>
+                  <%= current_user.username %>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li><a class="dropdown-item" href="<%= user_path(current_user) %>">Your profile</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li>
+                    <%= button_to 'Sign-out', destroy_user_session_path, class: 'dropdown-item', method: :delete, data: { turbo: false } %>
+                  </li>
+                </ul>
+              </li>
+            <% else %>
+              <li class="nav-item">
+                <%= link_to 'Sign-in', new_user_session_path, class: 'nav-link', data: { turbo: false } %>
+              </li>
+            <% end %>
+          </ul>
         </div>
       </div>
     </nav>
