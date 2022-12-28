@@ -1,7 +1,7 @@
 {
   "scripts": {
     "dokku": {
-      "postdeploy": "bundle exec rake db:migrate sitemap:refresh"
+      "postdeploy": "bundle exec rake assets:precompile db:migrate sitemap:refresh"
     }
   }
 }
