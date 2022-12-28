@@ -1,3 +1,5 @@
+<% set_meta_tags canonical: saved_user_recipes_url(@user) %>
+
 <%= render layout: 'users/profile_layout' do %>
   <%= render 'recipes/recipes', recipes: @recipes, pagy: @pagy, saves: @saves %>
 <% end %>

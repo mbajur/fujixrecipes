@@ -1,3 +1,5 @@
+<% set_meta_tags canonical: root_url %>
+
 <%= content_for :hero do %>
   <div class="bg-dark py-4 mb-4 text-light">
     <div class="container">
@@ -5,10 +7,10 @@
         <p class="lead">
           <% if @camera %>
             Showing <%= pluralize(@recipes.count, 'recipe')%> for <strong>Fujifilm <%= @camera.name %></strong>
-            <% set_meta_tags title: "Fujifilm #{@camera.name}", description: "Recipes for Fujifilm #{@camera.name}" %>
+            <% set_meta_tags title: "Fujifilm #{@camera.name}", description: "Recipes for Fujifilm #{@camera.name}", canonical: camera_url(@camera) %>
           <% elsif @sensor %>
             Showing <%= pluralize(@recipes.count, 'recipe')%> compatible with <strong>Fujifilm <%= @sensor.name %></strong> sensor
-            <% set_meta_tags title: "Fujifilm #{@sensor.name}", description: "Recipes for Fujifilm #{@sensor.name} sensor" %>
+            <% set_meta_tags title: "Fujifilm #{@sensor.name}", description: "Recipes for Fujifilm #{@sensor.name} sensor", canonical: sensor_url(@sensor) %>
           <% else %>
             Welcome to Fuji X Recipes! Use the buttons below to filter our database:
           <% end %>
