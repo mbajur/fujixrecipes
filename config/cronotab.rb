@@ -40,6 +40,12 @@ class FilmRecipesScrapJob
   end
 end
 
+class CaptnLookScrapJob
+  def perform
+    Scrappers::CaptnLookScrapper.new(username: ENV.fetch('CAPTN_LOOK_SCRAPPER_USERNAME'), logger: Crono.logger).call
+  end
+end
+
 class FujiWeeklyScrapJob
   def perform
     data = {
@@ -68,3 +74,4 @@ Crono.perform(CalculateRecipesCountForCamerasJob).every 10.minutes
 Crono.perform(IvanYoloScrapJob).every 6.hours
 Crono.perform(FilmRecipesScrapJob).every 6.hours
 Crono.perform(FujiWeeklyScrapJob).every 6.hours
+Crono.perform(CaptnLookScrapJob).every 6.hours

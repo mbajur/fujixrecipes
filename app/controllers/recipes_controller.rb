@@ -7,7 +7,7 @@ class RecipesController < ApplicationController
   # GET /recipes or /recipes.json
   def index
     scope = Recipe.all.order(created_at: :desc).includes([:sensor, :parent, poster_attachment: :blob, user: { avatar_attachment: :blob }])
-    @pagy, @recipes = pagy_countless(scope)
+    @pagy, @recipes = pagy(scope)
     @saves = find_saves(@recipes)
 
     if params[:page]
@@ -20,8 +20,8 @@ class RecipesController < ApplicationController
 
   def camera
     @recipes = Recipe.all.order(created_at: :desc).includes([:sensor, :parent, poster_attachment: :blob, user: { avatar_attachment: :blob }])
-    scope = @recipes.joins(:sensor).where('sensors.slug': Sensor.compatibility_matrix[@camera.sensor.slug.to_sym]).order(created_at: :desc)
-    @pagy, @recipes = pagy_countless(scope)
+    @scope = @recipes.joins(:sensor).where('sensors.slug': Sensor.compatibility_matrix[@camera.sensor.slug.to_sym]).order(created_at: :desc)
+    @pagy, @recipes = pagy(@scope)
     @saves = find_saves(@recipes)
     render :index
   end
@@ -29,7 +29,7 @@ class RecipesController < ApplicationController
   def sensor
     @recipes = Recipe.all.order(created_at: :desc).includes([:sensor, :parent, poster_attachment: :blob, user: { avatar_attachment: :blob }])
     scope = @recipes.joins(:sensor).where('sensors.slug': Sensor.compatibility_matrix[@sensor.slug.to_sym]).order(created_at: :desc)
-    @pagy, @recipes = pagy_countless(scope)
+    @pagy, @recipes = pagy(scope)
     @saves = find_saves(@recipes)
 
     render :index
@@ -38,7 +38,7 @@ class RecipesController < ApplicationController
   def saved
     @user = User.find_by!(username: params[:user_username])
     scope = @user.saved_recipes.order('saves.id DESC')
-    @pagy, @recipes = pagy_countless(scope)
+    @pagy, @recipes = pagy(scope)
     @saves = find_saves(@recipes)
 
     respond_to do |format|
