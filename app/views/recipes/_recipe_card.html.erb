@@ -47,7 +47,7 @@
           <% btn_style = "--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem; margin-top: -0.6rem; margin-right: -0.3rem; margin-bottom: -0.6rem;" %>
 
           <% if recipe.saves_count.positive? %>
-            <span class="d-inline-block btn btn-link disabled text-decoration-none" style="<%= btn_style %>" title="Recipe saved <%= pluralize(recipe.saves.count, 'time') %>">
+            <span class="d-inline-block btn btn-link disabled text-decoration-none" style="<%= btn_style %>" title="Recipe saved <%= pluralize(recipe.saves_count, 'time') %>">
               <%= recipe.saves_count %>
             </span>
           <% end %>
