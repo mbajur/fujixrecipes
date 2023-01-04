@@ -11,12 +11,16 @@ module Scrappers
       sensor = Sensor.find_by!(slug: 'xtrans4')
       doc = Nokogiri::HTML(URI.open("https://www.ivanyolo.com/fujifilm-recipes/"))
 
-      doc.at('a:contains("Fujifilm X-Trans IV Recipes")').parent.css('ul.sub-menu').first.css('a.elementor-sub-item').each do |link|
+      doc.at('h1:contains("Fujifilm Recipes: X-Trans IV Film Simulation Recipes")').ancestors('section')[0].next_element.css('.elementor-tab-content a').each do |link|
         name = link.text.strip
-        url = link['href']
+
+        url = ['https://www.ivanyolo.com']
+        url << '/' unless link['href'].starts_with?('/')
+        url << link['href']
+        url = url.join('')
 
         if Recipe.find_by(original_url: url.to_s)
-          logger.info "Recipe for #{name} already exists"
+          pp "Recipe for #{name} already exists"
           next
         end
 
@@ -39,7 +43,7 @@ module Scrappers
         )
         recipe.save!
 
-        logger.info "Recipe #{recipe.name} saved"
+        pp "Recipe #{recipe.name} saved"
       end
 
       true
