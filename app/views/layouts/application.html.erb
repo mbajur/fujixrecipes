@@ -8,7 +8,11 @@
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
 
-      gtag('config', '<%= ENV.fetch('GA_ID') %>');
+      document.addEventListener('turbo:load', function(event) {
+        gtag('config', '<%= ENV.fetch('GA_ID') %>', {
+          page_location: event.detail.url
+        });
+      })
     </script>
 
     <%= display_meta_tags(default_meta_tags) %>
