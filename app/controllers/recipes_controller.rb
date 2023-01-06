@@ -6,7 +6,12 @@ class RecipesController < ApplicationController
 
   # GET /recipes or /recipes.json
   def index
-    scope = Recipe.all.order(created_at: :desc).includes([:sensor, :parent, poster_attachment: :blob, user: { avatar_attachment: :blob }])
+    scope = Recipe.all
+                  .order(created_at: :desc)
+                  .includes([:sensor, :parent, poster_attachment: :blob, user: { avatar_attachment: :blob }])
+
+    scope = apply_search_query(scope) if params[:q]
+
     @pagy, @recipes = pagy(scope)
     @saves = find_saves(@recipes)
 
@@ -16,6 +21,20 @@ class RecipesController < ApplicationController
         format.turbo_stream
       end
     end
+  end
+
+  def search
+    redirect_to root_path and return if params[:q].blank?
+    scope = Recipe.all
+                  .order(created_at: :desc)
+                  .includes([:sensor, :parent, poster_attachment: :blob, user: { avatar_attachment: :blob }])
+
+    scope = apply_search_query(scope) if params[:q]
+
+    @pagy, @recipes = pagy(scope)
+    @saves = find_saves(@recipes)
+
+    render :index
   end
 
   def camera
@@ -178,6 +197,12 @@ class RecipesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_recipe
       @recipe = Recipe.find(params[:hashid])
+    end
+
+    def apply_search_query(scope)
+      scope
+        .joins(:user)
+        .where('name ILIKE :query OR users.username ILIKE :query', query: "%#{params[:q]}%")
     end
 
     # Only allow a list of trusted parameters through.

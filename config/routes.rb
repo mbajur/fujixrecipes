@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   end
 
   resources :recipes, only: [:index, :new, :create, :edit, :update], param: :hashid, path: '/' do
+    get :search, on: :collection
     post :toggle_save
     get :new_local, on: :collection
     get :new_external, on: :collection

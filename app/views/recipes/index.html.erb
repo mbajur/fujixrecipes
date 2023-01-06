@@ -5,7 +5,10 @@
     <div class="container">
       <div class="text-center">
         <p class="lead">
-          <% if @camera %>
+          <% if params[:q] %>
+            Showing <%= pluralize(@pagy.count, 'recipe')%> for 	&bdquo;<%= params[:q] %>&rdquo;
+            <% set_meta_tags title: "Fujifilm recipes for „#{params[:q]}”", canonical: search_recipes_path(q: params[:q]) %>
+          <% elsif @camera %>
             Showing <%= pluralize(@pagy.count, 'recipe')%> for <strong>Fujifilm <%= @camera.name %></strong>
             <% set_meta_tags title: "Fujifilm #{@camera.name}", description: "Recipes for Fujifilm #{@camera.name}", canonical: camera_url(@camera) %>
           <% elsif @sensor %>

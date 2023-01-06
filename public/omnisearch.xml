@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/"
+                       xmlns:moz="http://www.mozilla.org/2006/browser/search/">
+  <ShortName>Fuji X Recipes</ShortName>
+  <Description>Open Fuji X recipes directory</Description>
+  <InputEncoding>[UTF-8]</InputEncoding>
+  <Url type="text/html" template="https://fujixrecipes.com/?q={searchTerms}"/>
+  <!-- <Url type="application/x-suggestions+json" template="http://localhost:3000/?q={searchTerms}"/> -->
+  <moz:SearchForm>[https://fujixrecipes.com]</moz:SearchForm>
+</OpenSearchDescription>

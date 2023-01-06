@@ -36,4 +36,8 @@ SitemapGenerator::Sitemap.create do
   User.find_each do |user|
     add user_path(user), priority: 0.7, changefreq: 'daily'
   end
+
+  ['Portra', 'Portra 400', 'Kodak', 'Fuji', 'Fuji Pro 400h'].each do |keyword|
+    add search_recipes_path(q: keyword), priority: 0.6, changefreq: 'daily'
+  end
 end

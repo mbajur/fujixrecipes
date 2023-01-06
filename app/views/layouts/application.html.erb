@@ -4,6 +4,8 @@
     <%= display_meta_tags(default_meta_tags) %>
 
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link type="application/opensearchdescription+xml" rel="search" href="/omnisearch.xml"/>
+
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -18,6 +20,11 @@
     <nav class="navbar navbar-expand-lg bg-light">
       <div class="container">
         <a class="navbar-brand h1 mb-0" href="/">Fuji X Recipes</a>
+
+        <form class="ms-3 d-none d-md-flex" role="search" action="<%= search_recipes_path %>">
+          <input class="form-control me-2" type="search" placeholder="Search..." aria-label="Search" name="q" value="<%= params[:q] %>">
+        </form>
+
         <div>
           <div class="d-inline-block d-md-none">
             <a href="<%= new_recipe_path %>" class="btn btn-outline-success"><i data-feather="plus"></i></a>
@@ -26,15 +33,20 @@
               <a href="<%= saved_user_recipes_path(current_user) %>" class="btn btn-outline-secondary"><i data-feather="bookmark"></i></a>
             <% end %>
           </div>
+
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
         </div>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <div class="me-auto mb-2 mb-lg-0"></div>
-          <a class="btn btn-outline-success d-none d-md-inline-block me-3" href="<%= new_recipe_path %>">+ Add recipe</a>
+          <a class="btn btn-outline-success btn-sm d-none d-md-inline-block me-3" href="<%= new_recipe_path %>">+ Add recipe</a>
 
           <ul class="navbar-nav">
+            <form class="d-flex d-md-none" role="search" action="<%= search_recipes_path %>">
+              <input class="form-control me-2" type="search" placeholder="Search..." aria-label="Search" name="q" value="<%= params[:q] %>">
+            </form>
+
             <% if user_signed_in? %>
               <li class="nav-item d-none d-md-inline-block"><a href="<%= saved_user_recipes_path(current_user) %>" class="nav-link">Saved recipes</a></li>
               <li class="nav-item dropdown">
