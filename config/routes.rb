@@ -17,5 +17,7 @@ Rails.application.routes.draw do
   match 'cameras/:slug', as: :camera, to: 'recipes#camera', via: [:post, :get]
   match 'sensors/:slug', as: :sensor, to: 'recipes#sensor', via: [:post, :get]
 
+  get :about, to: 'pages#about', as: :about
+
   root "recipes#index"
 end

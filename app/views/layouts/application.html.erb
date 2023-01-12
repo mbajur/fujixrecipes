@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=<%= ENV.fetch('GA_ID') %>"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+    <% if ENV['GA_ID'] %>
+      <!-- Google tag (gtag.js) -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=<%= ENV.fetch('GA_ID') %>"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
-      document.addEventListener('turbo:load', function(event) {
-        gtag('config', '<%= ENV.fetch('GA_ID') %>', {
-          page_location: event.detail.url
-        });
-      })
-    </script>
+        document.addEventListener('turbo:load', function(event) {
+          gtag('config', '<%= ENV.fetch('GA_ID') %>', {
+            page_location: event.detail.url
+          });
+        })
+      </script>
+    <% end %>
 
     <%= display_meta_tags(default_meta_tags) %>
 
@@ -39,6 +41,12 @@
           <input class="form-control me-2" type="search" placeholder="Search..." aria-label="Search" name="q" value="<%= params[:q] %>">
         </form>
 
+        <ul class="navbar-nav d-none d-lg-flex">
+          <li class="nav-item">
+            <%= link_to 'About', about_path, class: 'nav-link' %>
+          </li>
+        </ul>
+
         <div>
           <div class="d-inline-block d-md-none">
             <a href="<%= new_recipe_path %>" class="btn btn-outline-success"><i data-feather="plus"></i></a>
@@ -60,6 +68,8 @@
             <form class="d-flex d-md-none" role="search" action="<%= search_recipes_path %>">
               <input class="form-control me-2" type="search" placeholder="Search..." aria-label="Search" name="q" value="<%= params[:q] %>">
             </form>
+
+            <li class="nav-item d-inline-block d-md-none"><%= link_to 'About', about_path, class: 'nav-link' %></li>
 
             <% if user_signed_in? %>
               <li class="nav-item d-none d-md-inline-block"><a href="<%= saved_user_recipes_path(current_user) %>" class="nav-link">Saved recipes</a></li>
